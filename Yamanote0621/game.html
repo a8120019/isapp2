@@ -5,14 +5,41 @@
     <script type="text/javascript" src="lib/osql.js"></script>
 
     <script>
+        osql.requireLogin();
         
+        $(document).ready(function () {
+            userName();
+        });
+
+        async function userName() {
+            var me = await osql.getMe();
+            document.getElementById('answerer').innerHTML = me.fname;
+        }
+
+        async function buttonPressed() {
+            var me = await osql.getMe();
+            var ans = document.getElementById('answer').value;
+            var sql = `select * from Game_Play where playerid="${me.id}";`;
+            var objects = await osql.connect(sql);
+
+            var sql = `select * from Game where id=1;`;
+            var games = await osql.connect(sql);
+
+            var sumorder = Number(games[0].turn) + 1;
+
+            console.log(objects);
+            var sql = `insert into Item values (${objects[0].gameid}, "${objects[0].playerid}", ${sumorder}, "${ans}");`;
+            await osql.connect(sql);
+            var sql = `update Game set turn = ${sumorder} where id=${objects[0].gameid};`;
+            await osql.connect(sql);
+        }
     </script>
 </head>
 
 <body>
     <h1>山手線ゲーム</h1>
     <hr>
-    <a id="answerer">さんの番です</a>
+    <span id="answerer"></span>さんの番です
     <p>
         <input id="answer">
         <button id="confirm" onclick="buttonPressed()">入力</button>
