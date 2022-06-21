@@ -5,6 +5,18 @@
     <script type="text/javascript" src="lib/osql.js"></script>
 
     <script>
+        osql.requireLogin();
+        
+        async function getUserData(){
+            var me = await osql.getMe();
+            console.log(me);
+            var sql = `insert ignore into Players values ("${me.id}", "${me.fname}");`;
+            var objects = await osql.connect(sql);
+        }
+
+        function ButtonPressed(){
+            getUserData();
+        }
 
     </script>
 </head>
