@@ -32,6 +32,9 @@
             await osql.connect(sql);
             var sql = `update Game set turn = ${sumorder} where id=${objects[0].gameid};`;
             await osql.connect(sql);
+
+            document.getElementById('answerer').innerHTML = "つぎのひと";
+            document.getElementById('form').innerHTML = "";
         }
     </script>
 </head>
@@ -41,8 +44,10 @@
     <hr>
     <span id="answerer"></span>さんの番です
     <p>
+        <span id="form">
         <input id="answer">
         <button id="confirm" onclick="buttonPressed()">入力</button>
+        </span>
     </p>
 </body>
 
