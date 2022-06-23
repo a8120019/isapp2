@@ -8,13 +8,16 @@
         osql.requireLogin();
 
         $(document).ready(function () {
-            userName();
+            var ch = pageUpdate();
+            userName(ch);
             // timer = setInterval(pageUpdate, 2000);
         });
 
-        async function userName() {
-            var me = await osql.getMe();
-            document.getElementById('answerer').innerHTML = me.fname;
+        async function userName(check) {
+            var sql = `select Players.name as name from Game_play where gameid=1 AND orders=${check} inner join Players on Game_Play.playerid = Players.id";`;
+            var objects = await osql.connect(sql);
+            var current_player = objects[0].name;
+            document.getElementById('answerer').innerHTML = current_player;
             // console.log(me);
         }
 
@@ -51,7 +54,7 @@
             var sql = `select * from Game where id=1;`;
             var objects = await osql.connect(sql);
             var phase = Number(objects[0].turn);
-            var check = phase % pop;
+            var check = ((phase - 1) % pop) + 1;
             var me = await osql.getMe();
             var sql = `select * from Game_Play where playerid="${me.id}";`;
             var objects = await osql.connect(sql);
@@ -59,10 +62,8 @@
             if (check == objects[0].orders) {
                 document.getElementById('answerer').innerHTML = me.fname;
                 document.getElementById('form').innerHTML = `<input id="answer"><button id = "confirm" onclick = "buttonPressed()" > 入力</button>`;
-            } else if (check == 0 && objects[0].orders == pop) {
-                document.getElementById('answerer').innerHTML = me.fname;
-                document.getElementById('form').innerHTML = `<input id="answer"><button id = "confirm" onclick = "buttonPressed()" > 入力</button>`;
             }
+            return check;
         }
 
     </script>
@@ -74,8 +75,6 @@
     <span id="answerer"></span>さんの番です
     <p>
         <span id="form">
-            <input id="answer">
-            <button id="confirm" onclick="buttonPressed()">入力</button>
         </span>
         <button id="update" onclick="pageUpdate()">更新</button>
     </p>
