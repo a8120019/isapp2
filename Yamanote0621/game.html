@@ -9,6 +9,7 @@
         
         $(document).ready(function () {
             userName();
+            // timer = setInterval(pageUpdate, 2000);
         });
 
         async function userName() {
@@ -36,6 +37,11 @@
             document.getElementById('answerer').innerHTML = "つぎのひと";
             document.getElementById('form').innerHTML = "";
         }
+
+        function pageUpdate(){
+            window.location.reload()
+        }
+
     </script>
 </head>
 
@@ -48,6 +54,7 @@
         <input id="answer">
         <button id="confirm" onclick="buttonPressed()">入力</button>
         </span>
+        <button id="update" onclick="pageUpdate()">更新</button>
     </p>
 </body>
 
