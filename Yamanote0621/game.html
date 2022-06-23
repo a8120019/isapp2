@@ -51,6 +51,8 @@
             var sql = `select * from Game where id=1;`;
             var objects = await osql.connect(sql);
             var phase = Number(objects[0].turn);
+            console.log(pop);
+            console.log(phase)
             var check = phase % pop;
             var me = await osql.getMe();
             var sql = `select * from Game_Play where playerid="${me.id}";`;
