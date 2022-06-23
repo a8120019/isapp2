@@ -15,13 +15,12 @@
         async function userName() {
             var me = await osql.getMe();
             document.getElementById('answerer').innerHTML = me.fname;
-            console.log(me);
+            // console.log(me);
         }
 
         async function getPop(){
             var sql = `select count(*) as count from Game_Play where gameid=1;`;
             var objects = await osql.connect(sql);
-            console.log(objects);
             var pop = Number(objects[0].count);  // 人数
             return pop;
         }
@@ -37,7 +36,6 @@
 
             var sumorder = Number(games[0].turn) + 1;
 
-            console.log(objects);
             var sql = `insert into Item values (${objects[0].gameid}, "${objects[0].playerid}", ${sumorder}, "${ans}");`;
             await osql.connect(sql);
             var sql = `update Game set turn = ${sumorder} where id=${objects[0].gameid};`;
@@ -57,6 +55,8 @@
             var me = await osql.getMe();
             var sql = `select * from Game_Play where playerid="${me.id}";`;
             var objects = await osql.connect(sql);
+            console.log(check);
+            console.log(objects);
             if (check == objects[0].orders){
                 document.getElementById('answerer').innerHTML = me.fname;
                 document.getElementById('form').innerHTML = `<input id="answer"><button id = "confirm" onclick = "buttonPressed()" > 入力</button>`;
