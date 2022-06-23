@@ -59,7 +59,7 @@
             if (check == objects[0].orders) {
                 document.getElementById('answerer').innerHTML = me.fname;
                 document.getElementById('form').innerHTML = `<input id="answer"><button id = "confirm" onclick = "buttonPressed()" > 入力</button>`;
-            } else if (check == 0) {
+            } else if (check == 0 && objects[0].orders == pop) {
                 document.getElementById('answerer').innerHTML = me.fname;
                 document.getElementById('form').innerHTML = `<input id="answer"><button id = "confirm" onclick = "buttonPressed()" > 入力</button>`;
             }
