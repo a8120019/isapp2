@@ -48,7 +48,7 @@
         }
 
         async function pageUpdate(){
-            window.location.reload();
+            // window.location.reload();
             var pop = getPop();
             var sql = `select * from Game where id=1;`;
             var objects = await osql.connect(sql);
