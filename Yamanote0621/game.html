@@ -6,7 +6,7 @@
 
     <script>
         osql.requireLogin();
-        
+
         $(document).ready(function () {
             userName();
             // timer = setInterval(pageUpdate, 2000);
@@ -18,11 +18,10 @@
             // console.log(me);
         }
 
-        async function getPop(){
+        async function getPop() {
             var sql = `select count(*) as count from Game_Play where gameid=1;`;
             var objects = await osql.connect(sql);
             var pop = Number(objects[0].count);  // 人数
-            console.log("getPopの中身" + pop);
             return pop;
         }
 
@@ -46,24 +45,21 @@
             document.getElementById('form').innerHTML = "";
         }
 
-        async function pageUpdate(){
+        async function pageUpdate() {
             // window.location.reload();
-            var pop = getPop();
+            var pop = await getPop();
             var sql = `select * from Game where id=1;`;
             var objects = await osql.connect(sql);
             var phase = Number(objects[0].turn);
-            console.log(pop);
-            console.log(phase)
             var check = phase % pop;
             var me = await osql.getMe();
             var sql = `select * from Game_Play where playerid="${me.id}";`;
             var objects = await osql.connect(sql);
-            console.log(check);
-            console.log(objects);
-            if (check == objects[0].orders){
+            console.log(check + "であなたは" + objects[0].orders)
+            if (check == objects[0].orders) {
                 document.getElementById('answerer').innerHTML = me.fname;
                 document.getElementById('form').innerHTML = `<input id="answer"><button id = "confirm" onclick = "buttonPressed()" > 入力</button>`;
-            } else if (check == 0){
+            } else if (check == 0) {
                 document.getElementById('answerer').innerHTML = me.fname;
                 document.getElementById('form').innerHTML = `<input id="answer"><button id = "confirm" onclick = "buttonPressed()" > 入力</button>`;
             }
@@ -78,8 +74,8 @@
     <span id="answerer"></span>さんの番です
     <p>
         <span id="form">
-        <input id="answer">
-        <button id="confirm" onclick="buttonPressed()">入力</button>
+            <input id="answer">
+            <button id="confirm" onclick="buttonPressed()">入力</button>
         </span>
         <button id="update" onclick="pageUpdate()">更新</button>
     </p>
