@@ -68,6 +68,24 @@
                 document.getElementById('answerer').innerHTML = me.fname;
                 document.getElementById('form').innerHTML = `<input id="answer"><button id = "confirm" onclick = "buttonPressed()" > 入力</button>`;
             }
+            var sql = `select * from Item inner join Players on Item.playerid = Players.id where gameid=1 order by orders;`;
+            var objects = await osql.connect(sql);
+            var html = '';
+            html = html + '<table border="1">';
+            html = html + "<td>" + "プレイヤー名" + "</td>";
+            html = html + "<td>" + "順番" + "</td>";
+            html = html + "<td>" + "単語" + "</td>";
+            for (var i = 0; i < objects.length; i++) {
+                var object = objects[i];
+                html = html + '<tr>';
+                html = html + '<td>' + object.name + '</td>';
+                html = html + '<td>' + object.orders + '</td>';
+                html = html + '<td>' + object.content + '</td>';
+                html = html + '</tr>';
+            }
+            html = html + '</table>';
+
+            document.getElementById('record').innerHTML = html;
             return check;
         }
 
@@ -80,6 +98,10 @@
     <span id="answerer"></span>さんの番です
     <p>
         <span id="form">
+        </span>
+    </p>
+    <p>
+        <span id="record">
         </span>
     </p>
 </body>

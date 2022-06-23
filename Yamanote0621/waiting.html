@@ -6,16 +6,31 @@
 
     <script>
         osql.requireLogin();
-        
+
+        $(document).ready(function () {
+            getUserData();
+            timer = setInterval(pageUpdate, 2000);
+        });
+
         async function getUserData(){
             var me = await osql.getMe();
             console.log(me);
-            var sql = `insert ignore into Players values ("${me.id}", "${me.fname}");`;
+            var sql = `insert ignore into Players (id, name) values ("${me.id}", "${me.fname}");`;
             await osql.connect(sql);
         }
 
-        function ButtonPressed(){
-            getUserData();
+        async function pageUpdate(){
+            var sql = `select * from Game where id=1;`;
+            var objects = await osql.connect(sql);
+            if (objects[0].turn == 1) {
+                window.location.href = "game.html";
+            }
+        }
+
+        async function ButtonPressed(){
+            var sql = `update Game set turn = 1 where id=1;`;
+            await osql.connect(sql);
+            window.location.href = "game.html";
         }
 
     </script>
