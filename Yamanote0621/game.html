@@ -8,13 +8,17 @@
         osql.requireLogin();
 
         $(document).ready(function () {
-            var ch = pageUpdate();
-            userName(ch);
+            start();
             // timer = setInterval(pageUpdate, 2000);
         });
 
+        async function start(){
+            var ch = await pageUpdate();
+            userName(ch);
+        }
+
         async function userName(check) {
-            var sql = `select Players.name as name from Game_play where gameid=1 AND orders=${check} inner join Players on Game_Play.playerid = Players.id";`;
+            var sql = `select name from Game_Play inner join Players on Game_Play.playerid = Players.id where gameid=1 AND orders=${check};`;
             var objects = await osql.connect(sql);
             var current_player = objects[0].name;
             document.getElementById('answerer').innerHTML = current_player;
