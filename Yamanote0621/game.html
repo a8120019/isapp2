@@ -15,6 +15,15 @@
         async function userName() {
             var me = await osql.getMe();
             document.getElementById('answerer').innerHTML = me.fname;
+            console.log(me);
+        }
+
+        async function getPop(){
+            var sql = `select count(*) as count from Game_Play where gameid=1;`;
+            var objects = await osql.connect(sql);
+            console.log(objects);
+            var pop = Number(objects[0].count);  // 人数
+            return pop;
         }
 
         async function buttonPressed() {
@@ -38,8 +47,23 @@
             document.getElementById('form').innerHTML = "";
         }
 
-        function pageUpdate(){
-            window.location.reload()
+        async function pageUpdate(){
+            window.location.reload();
+            var pop = getPop();
+            var sql = `select * from Game where id=1;`;
+            var objects = await osql.connect(sql);
+            var phase = Number(objects[0].turn);
+            var check = phase % pop;
+            var me = await osql.getMe();
+            var sql = `select * from Game_Play where playerid="${me.id}";`;
+            var objects = await osql.connect(sql);
+            if (check == objects[0].orders){
+                document.getElementById('answerer').innerHTML = me.fname;
+                document.getElementById('form').innerHTML = `<input id="answer"><button id = "confirm" onclick = "buttonPressed()" > 入力</button>`;
+            } else if (check == 0){
+                document.getElementById('answerer').innerHTML = me.fname;
+                document.getElementById('form').innerHTML = `<input id="answer"><button id = "confirm" onclick = "buttonPressed()" > 入力</button>`;
+            }
         }
 
     </script>
