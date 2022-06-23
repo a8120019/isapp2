@@ -48,7 +48,7 @@
             var sql = `update Game set turn = ${sumorder} where id=${objects[0].gameid};`;
             await osql.connect(sql);
 
-            document.getElementById('answerer').innerHTML = "つぎのひと";
+            start();
             document.getElementById('form').innerHTML = "";
         }
 
