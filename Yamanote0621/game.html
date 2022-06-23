@@ -18,6 +18,7 @@
         }
 
         async function userName(check) {
+            console.log(check);
             var sql = `select name from Game_Play inner join Players on Game_Play.playerid = Players.id where gameid=1 AND orders=${check};`;
             var objects = await osql.connect(sql);
             var current_player = objects[0].name;
@@ -57,7 +58,7 @@
             var pop = await getPop();
             var sql = `select * from Game where id=1;`;
             var objects = await osql.connect(sql);
-            var phase = Number(objects[0].turn);
+            var phase = Number(objects[0].turn) + 1;
             var check = ((phase - 1) % pop) + 1;
             var me = await osql.getMe();
             var sql = `select * from Game_Play where playerid="${me.id}";`;
