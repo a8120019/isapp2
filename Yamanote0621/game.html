@@ -22,6 +22,7 @@
             var sql = `select count(*) as count from Game_Play where gameid=1;`;
             var objects = await osql.connect(sql);
             var pop = Number(objects[0].count);  // 人数
+            console.log("getPopの中身" + pop);
             return pop;
         }
 
