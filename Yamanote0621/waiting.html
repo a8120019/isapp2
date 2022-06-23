@@ -25,6 +25,20 @@
             if (objects[0].turn == 0) {
                 window.location.href = "game.html";
             }
+            var sql = `select name from Game_Play inner join Players on Game_Play.playerid = Players.id where gameid=1;`;
+            var objects = await osql.connect(sql);
+            var html = '';
+            html = html + '<table border="1">';
+            html = html + "<td>" + "参加者" + "</td>";
+            for (var i = 0; i < objects.length; i++) {
+                var object = objects[i];
+                html = html + '<tr>';
+                html = html + '<td>' + object.name + '</td>';
+                html = html + '</tr>';
+            }
+            html = html + '</table>';
+
+            document.getElementById('record').innerHTML = html;
         }
 
         async function ButtonPressed(){
@@ -43,6 +57,10 @@
     <p>
         <button id="start" onclick="ButtonPressed()">開始！
         </button>
+    </p>
+    <p>
+        <span id="members">
+        </span>
     </p>
 </body>
 
