@@ -22,13 +22,13 @@
         async function pageUpdate(){
             var sql = `select * from Game where id=1;`;
             var objects = await osql.connect(sql);
-            if (objects[0].turn == 1) {
+            if (objects[0].turn == 0) {
                 window.location.href = "game.html";
             }
         }
 
         async function ButtonPressed(){
-            var sql = `update Game set turn = 1 where id=1;`;
+            var sql = `update Game set turn = 0 where id=1;`;
             await osql.connect(sql);
             window.location.href = "game.html";
         }
