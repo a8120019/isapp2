@@ -10,13 +10,23 @@
 
     <script>
         osql.requireLogin();
+
+        $(document).ready(function () {
+            getUserData();
+        });
+
+        async function getUserData() {
+            var me = await osql.getMe();
+            var sql = `insert ignore into Users (id, fname, lname) values ("${me.id}", "${me.fname}", "${me.lname}");`;
+            await osql.connect(sql);
+            document.getElementById('name').innerHTML = me.fname + " " + me.lname;
+        }
     </script>
 
 </head>
 
 <body>
-    <h1>ユーザトップ</h1>
-    <p id="welcome">ようこそxxさん</p>
+    <h1><span id="name">xx</span>さんの個人記録</h1>
     <hr>
 
 </body>

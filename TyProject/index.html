@@ -20,7 +20,7 @@
             var me = await osql.getMe();
             var sql = `insert ignore into Users (id, fname, lname) values ("${me.id}", "${me.fname}", "${me.lname}");`;
             await osql.connect(sql);
-            document.getElementById('name').innerHTML = me.lname + " " + me.fname;
+            document.getElementById('name').innerHTML = me.fname + " " + me.lname;
         }
 
     </script>
