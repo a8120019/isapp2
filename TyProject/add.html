@@ -4,20 +4,42 @@
 
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-
+    <link rel="stylesheet" href="index.css">
     <script type="text/javascript" src="lib/jquery.min.js"></script>
     <script type="text/javascript" src="lib/osql.js"></script>
 
     <script>
         osql.requireLogin();
+        $(document).ready(function () {
+            getUserData();
+        });
+
+        function getUserData() {
+            try {
+                var me = await osql.getMe();
+                var sql = `insert ignore into Users (id, fname, lname) values ("${me.id}", "${me.fname}", "${me.lname}");`;
+                await osql.connect(sql);
+                document.getElementById('name').innerHTML = me.fname + " " + me.lname;
+            }
+            catch {
+
+            }
+        }
+        async function buttonPressed() {
+
+        }
     </script>
 
 </head>
 
 <body>
     <h1>データ追加ページ</h1>
-    受験者名:<input id="user"></p>
     <hr>
+    受験者名:<input id="user" readonly><br>
+    運指:<span id="key"></span><br>
+    動画URL:<input id="movies">
+    <button id="admin" onclick="ButtonPressed()">追加
+
 
 </body>
 
