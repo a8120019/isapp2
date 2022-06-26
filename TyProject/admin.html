@@ -5,21 +5,81 @@
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 
+    <link href="index.css" rel="stylesheet" type="text/css">
+
     <script type="text/javascript" src="lib/jquery.min.js"></script>
     <script type="text/javascript" src="lib/osql.js"></script>
 
     <script>
         osql.requireLogin();
+
+        $(document).ready(function () {
+            getUserData();
+        });
+
+        async function getUserData() {
+            var sql = `select * from Users;`;
+            var students = await osql.connect(sql);
+            var html = "<table border='1'>" + "<tr><th>" + "学生番号" + "</th><th>" + "名前" + "</th><th>" + "記録追加" + "</th><th>" + "生徒情報変更" + "</th></tr>";
+            for (var i = 0; i < students.length; i++) {
+                html = html + '<tr>';
+                var object = students[i];
+                html = html + '<td>' + object.studentid + '</td>';
+                html = html + '<td>' + '<a href="personal.html?userid=' + object.name + '">' + object.name + "</a>" + '</td>';
+                html = html + '<td>' + `<button onclick="addRecord('${object.studentid}')">記録追加</button>` + '</td>';
+                html = html + '<td>' + `<button onclick="changeStudentInfo('${object.studentid}')">生徒情報変更</button>` + '</td>';
+                html = html + '</tr>';
+            }
+            html = html + '</table>';
+            document.getElementById('student_list').innerHTML = html;
+        }
+
+        async function searchButtonPressed(){
+            var s_name = document.getElementById('search').value;
+            var sql = `select * from Users where name like "%${s_name}%";`;
+            var students = await osql.connect(sql);
+            var html = "<table border='1'>" + "<tr><th>" + "学生番号" + "</th><th>" + "名前" + "</th><th>" + "記録追加" + "</th><th>" + "生徒情報変更" + "</th></tr>";
+            for (var i = 0; i < students.length; i++) {
+                html = html + '<tr>';
+                var object = students[i];
+                html = html + '<td>' + object.studentid + '</td>';
+                html = html + '<td>' + '<a href="personal.html?userid=' + object.name + '">' + object.name + "</a>" + '</td>';
+                html = html + '<td>' + `<button onclick="addRecord('${object.studentid}')">記録追加</button>` + '</td>';
+                html = html + '<td>' + `<button onclick="changeStudentInfo('${object.studentid}')">生徒情報変更</button>` + '</td>';
+                html = html + '</tr>';
+            }
+            html = html + '</table>';
+            document.getElementById('student_list').innerHTML = html;
+        }
+
+        function addRecord(student_id, student_name){
+            sessionStorage.setItem('studentid', student_id);
+            sessionStorage.setItem('name', student_name);
+            window.location.href = "add.html";
+        }
+
+        function addNewRecord(){
+            sessionStorage.removeItem('id');
+            sessionStorage.removeItem('name');
+            window.location.href = "add.html";
+        }
+
+        function changeStudentInfo() {
+
+        }
+
     </script>
 
 </head>
 
 <body>
     <h1>管理者ページ</h1>
-    <p></p>
     <hr>
-    <input id="search" type="textfield"><button id="search_button" onclick="searchButtonPressed()">検索</button><br>
-    <input id="pass"><button id="confirm" onclick="confirmPass()">OK</button>
+    <input id="search" type="textfield"><button id="search_button" onclick="searchButtonPressed()">検索</button>
+    <br><br>
+    <button id="new_student" onclick="addNewRecord()">新規生徒追加</button>
+    <br><br>
+    <span id="student_list"></span>
 </body>
 
 </html>
