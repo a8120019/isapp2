@@ -12,20 +12,37 @@
         osql.requireLogin();
         $(document).ready(function () {
             getUserData();
+            SetKeyboard();
         });
 
-        function getUserData() {
+        async function getUserData() {
             try {
-                var me = await osql.getMe();
-                var sql = `insert ignore into Users (id, fname, lname) values ("${me.id}", "${me.fname}", "${me.lname}");`;
-                await osql.connect(sql);
-                document.getElementById('name').innerHTML = me.fname + " " + me.lname;
+                var studentid = sessionStorage.getitem('studentid')
+                var name = sessionStorage.getitem('name')
+                document.getElementById("user").innerHTML = name;
+                document.getElementById("id").innerHTML = studetid;
+                console.log("おはよう");
             }
             catch {
-
             }
         }
         async function buttonPressed() {
+            //まずユーザーの追加。すでに存在したらスキップ
+            var studentid = document.getElementById('id').value
+            var name = document.getElementById('user').value
+            console.log('さようなら');
+            var sql = `insert ignore into Users (studentid, name) values("${studentid}","${name}");`;
+            await osql.connect(sql);
+
+
+            // var name = document.getElementById("name").value
+            // var sql = `select count(*) from Data where name = "${name}"`
+            // var object = await osql.connect(sql)
+            // var number = object.length
+
+            // var sql = `insert into Data values(${number},)`
+        }
+        function SetKeyboard() {
 
         }
     </script>
@@ -35,10 +52,12 @@
 <body>
     <h1>データ追加ページ</h1>
     <hr>
-    受験者名:<input id="user" readonly><br>
+    学生番号:<input id="id"><br>
+    受験者名:<input id="user"><br>
+
     運指:<span id="key"></span><br>
     動画URL:<input id="movies">
-    <button id="admin" onclick="ButtonPressed()">追加
+    <button id="add" onclick="buttonPressed()">追加
 
 
 </body>
