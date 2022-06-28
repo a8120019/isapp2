@@ -74,7 +74,10 @@
                 await osql.connect(sql);
                 window.location.href = "waiting.html";
             } else if (objects.length > 0) {
-                window.alert("あなたは既に 部屋番号:" + objects[0].gameid + " に参加しています");
+                var confirm = window.confirm("あなたは既に 部屋番号:" + objects[0].gameid + " に参加しています\n参加しますか？");
+                if (confirm == true) {
+                    window.location.href = "game.html";
+                }
             }
         }
 

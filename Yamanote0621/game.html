@@ -90,11 +90,19 @@
             return check;
         }
 
+        async function leftGame(){
+            var me = await osql.getMe();
+            var sql = `delete from Game_Play where playerid="${me.id}";`;
+            await osql.connect(sql);
+            window.location.href = "lobby.html";
+        }
+
     </script>
 </head>
 
 <body>
     <h1>山手線ゲーム</h1>
+    <button id="leave_game" onclick="leftGame()">退出</button>
     <hr>
     <span id="answerer"></span>さんの番です
     <p>
