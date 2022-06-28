@@ -8,7 +8,7 @@
         osql.requireLogin();
 
         $(document).ready(function () {
-            getGames();
+            timer = setInterval(getGames, 2000);
         });
 
         async function getGames() {
