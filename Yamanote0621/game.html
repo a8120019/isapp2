@@ -45,7 +45,7 @@
             var sql = `select * from Game_Play where playerid="${me.id}";`;
             var objects = await osql.connect(sql);
 
-            var sql = `select * from Game where id=1;`;
+            var sql = `select * from Game where id=${objects[0].gameid};`;
             var games = await osql.connect(sql);
 
             var sumorder = Number(games[0].turn) + 1;
@@ -65,7 +65,7 @@
             var sql = `select * from Game_Play where playerid = "${me.id}"`;
             var obs = await osql.connect(sql);
             var pop = await getPop();
-            var sql = `select * from Game where id=${obs[0].id};`;
+            var sql = `select * from Game where id=${obs[0].gameid};`;
             var objects = await osql.connect(sql);
             var phase = Number(objects[0].turn) + 1;
             var check = ((phase - 1) % pop) + 1;
@@ -77,7 +77,7 @@
                 document.getElementById('answerer').innerHTML = me.fname;
                 document.getElementById('form').innerHTML = `<input id="answer"><button id = "confirm" onclick = "buttonPressed()" > 入力</button>`;
             }
-            var sql = `select * from Item inner join Players on Item.playerid = Players.id where gameid=${obs[0].id} order by orders;`;
+            var sql = `select * from Item inner join Players on Item.playerid = Players.id where gameid=${obs[0].gameid} order by orders;`;
             var objects = await osql.connect(sql);
             var html = '';
             html = html + '<table border="1">';
