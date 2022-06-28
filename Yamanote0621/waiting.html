@@ -20,14 +20,14 @@
         }
 
         async function pageUpdate(){
-            var sql = `select * from Game where id=1;`;
+            var me = await osql.getMe();
+            var sql = `select * from Game_Play where playerid = "${me.id}"`;
+            var obs = await osql.connect(sql);
+            var sql = `select * from Game where id=${obs[0].gameid};`;
             var objects = await osql.connect(sql);
             if (objects[0].turn == 0) {
                 window.location.href = "game.html";
             }
-            var me = await osql.getMe();
-            var sql = `select * from Game_Play where playerid = "${me.id}"`;
-            var obs = await osql.connect(sql);
             var sql = `select name from Game_Play inner join Players on Game_Play.playerid = Players.id where gameid=${obs[0].gameid};`;
             var objects = await osql.connect(sql);
             var html = '';
