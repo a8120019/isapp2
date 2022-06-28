@@ -101,6 +101,12 @@
                 var sql = `update Game set turn = ${objects[0].phase} + 1 where id=${objects[0].gid};`;
                 await osql.connect(sql);
             }
+            var sql = `select * from Game_Play where gameid = ${gid}";`;
+            var objects = await osql.connect(sql);
+            if (objects.length == 0) {
+                var sql = `delete from Game where id="${gid}";`;
+                await osql.connect(sql);
+            }
         }
 
     </script>
