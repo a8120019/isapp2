@@ -17,11 +17,20 @@
             var html = '';
             html = html + '<table border="1">';
             html = html + "<td>" + "部屋番号" + "</td>";
-            html = html + "<td>" + "参加者" + "</td>";
+            html = html + "<td>" + "参加" + "</td>";
+            html = html + "<td>" + "現在の参加者" + "</td>";
             for (var i = 0; i < objects.length; i++) {
                 var object = objects[i];
                 html = html + '<tr>';
                 html = html + '<td>' + object.id + '</td>';
+
+                html = html + '<td>'
+                if (object.turn == -1) {
+                    html = html + '<button id="join_game" onclick="enterGame(' + object.id + ')">参加</button>';
+                } else {
+                    html = html + '<button id="join_game" disabled>参加</button>';
+                }
+                html = html + '</td>'
 
                 var sql = `select name from Game_Play inner join Players on Game_Play.playerid = Players.id where gameid=${object.id};`;
                 var members = await osql.connect(sql);
@@ -56,9 +65,15 @@
 
         async function enterGame(id_number){
             var me = await osql.getMe();
-            var sql = `insert into Game_Play (gameid, playerid, orders) values (${id_number}, "${me.id}", 0);`;
-            await osql.connect(sql);
-            window.location.href = "waiting.html";
+            var sql = `select * from Game_Play where playerid="${me.id}";`;
+            var objects = await osql.connect(sql);
+            if (objects.length == 0) {
+                var sql = `insert into Game_Play (gameid, playerid, orders) values (${id_number}, "${me.id}", 0);`;
+                await osql.connect(sql);
+                window.location.href = "waiting.html";
+            } else if (objects.length > 0) {
+                window.alert("あなたは既に 部屋番号:" + objects[0].gameid + " に参加しています");
+            }
         }
 
     </script>
