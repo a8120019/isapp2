@@ -90,7 +90,7 @@
                 window.location.href = "waiting.html";
             } else if (objects.length > 0) {
                 window.alert("あなたは既に 部屋番号:" + objects[0].gameid + " に参加しています");
-                var sql = `delete from Game_Play where gameid = ${id_number}`
+                var sql = `delete from Game where id = ${id_number}`
                 await osql.connect(sql);
             }
         }
