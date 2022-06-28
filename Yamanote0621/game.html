@@ -65,7 +65,7 @@
             var objects = await osql.connect(sql);
             console.log(check + "であなたは" + objects[0].orders)
             var c_name = document.getElementById('answerer').innerHTML;
-            if (check == objects[0].orders && c_name != me.fname) {
+            if (check == objects[0].orders) {
                 document.getElementById('answerer').innerHTML = me.fname;
                 document.getElementById('form').innerHTML = `<input id="answer"><button id = "confirm" onclick = "buttonPressed()" > 入力</button>`;
             }

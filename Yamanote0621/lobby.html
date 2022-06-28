@@ -68,7 +68,9 @@
             var sql = `select * from Game_Play where playerid="${me.id}";`;
             var objects = await osql.connect(sql);
             if (objects.length == 0) {
-                var sql = `insert into Game_Play (gameid, playerid, orders) values (${id_number}, "${me.id}", 0);`;
+                var sql = `select * from Game_Play where gameid = ${id_number}`
+                var games = await osql.connect(sql);
+                var sql = `insert into Game_Play (gameid, playerid, orders) values (${id_number}, "${me.id}", ${games.length} + 1);`;
                 await osql.connect(sql);
                 window.location.href = "waiting.html";
             } else if (objects.length > 0) {
