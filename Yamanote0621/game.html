@@ -104,15 +104,15 @@
             var objects = await osql.connect(sql);
             var sql = `delete from Game_Play where playerid="${me.id}";`;
             await osql.connect(sql);
-            // window.location.href = "lobby.html";
+            window.location.href = "lobby.html";
             if (objects[0].player == objects[0].phase){
                 var sql = `update Game set turn = ${objects[0].phase} + 1 where id=${objects[0].gid};`;
                 await osql.connect(sql);
             }
-            var sql = `select * from Game_Play where gameid = ${objects[0].gid}";`;
-            var objects = await osql.connect(sql);
-            if (objects.length == 0) {
-                var sql = `delete from Game where id="${objects[0].gid}";`;
+            var sql = `select * from Game_Play where gameid = ${objects[0].gid};`;
+            var objs = await osql.connect(sql);
+            if (objs.length == 0) {
+                var sql = `delete from Game where id=${objects[0].gid};`;
                 await osql.connect(sql);
             }
         }
