@@ -92,7 +92,7 @@
 
         async function leftGame(){
             var me = await osql.getMe();
-            var sql = `select Game_play.orders as player, Game.turn as phase, Game.id as gid from Game_Play inner join Game on Game_Play.gameid = Game.id where Game_Play.playerid = "${me.id}";`;
+            var sql = `select Game_Play.orders as player, Game.turn as phase, Game.id as gid from Game_Play inner join Game on Game_Play.gameid = Game.id where Game_Play.playerid = "${me.id}";`;
             var objects = await osql.connect(sql);
             var sql = `delete from Game_Play where playerid="${me.id}";`;
             await osql.connect(sql);
