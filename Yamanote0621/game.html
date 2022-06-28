@@ -114,6 +114,8 @@
             if (objs.length == 0) {
                 var sql = `delete from Game where id=${objects[0].gid};`;
                 await osql.connect(sql);
+                var sql = `delete from Item where gameid=${objects[0].gid};`;
+                await osql.connect(sql);
             }
         }
 
