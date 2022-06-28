@@ -57,7 +57,7 @@
                 if (games.length == 0){
                     var sql = `insert into Game (id, turn) values (${i}, -1);`;
                     await osql.connect(sql);
-                    enterGame(i)
+                    enterGameD(i)
                     break;
                 }
             }
@@ -75,6 +75,23 @@
                 window.location.href = "waiting.html";
             } else if (objects.length > 0) {
                 window.alert("あなたは既に 部屋番号:" + objects[0].gameid + " に参加しています");
+            }
+        }
+
+        async function enterGameD(id_number) {
+            var me = await osql.getMe();
+            var sql = `select * from Game_Play where playerid="${me.id}";`;
+            var objects = await osql.connect(sql);
+            if (objects.length == 0) {
+                var sql = `select * from Game_Play where gameid = ${id_number}`
+                var games = await osql.connect(sql);
+                var sql = `insert into Game_Play (gameid, playerid, orders) values (${id_number}, "${me.id}", ${games.length} + 1);`;
+                await osql.connect(sql);
+                window.location.href = "waiting.html";
+            } else if (objects.length > 0) {
+                window.alert("あなたは既に 部屋番号:" + objects[0].gameid + " に参加しています");
+                var sql = `delete from Game_Play where gameid = ${id_number}`
+                await osql.connect(sql);
             }
         }
 
