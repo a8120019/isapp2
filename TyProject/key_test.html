@@ -24,6 +24,12 @@
                     html = html + '<td>' + `<input type="radio" id="char${11 * i + j}" name="characters" value="${key_list[11 * i + j]}" onclick="fingerButton(${11 * i + j}, '${key_list[11 * i + j]}')">` + key_list[11 * i + j] + '</td>';
                 }
                 html = html + '</tr>';
+
+                html = html + '<tr>';
+                for (var j = 0; j < 11; j++) {
+                    html = html + '<td>' + "　" + '</td>';
+                }
+                html = html + '</tr>';
             }
             html = html + '</table>';
             document.getElementById('result').innerHTML = html;
@@ -31,9 +37,11 @@
 
         function fingerButton(key_number, key_value){
             var html = "";
-            var finger_list = ["左小指", "左薬指", "左中指", "左人差し指", "左親指", "右親指", "右人差し指", "右中指", "右薬指", "右小指"]
+            var finger_list = ["左小指", "左薬指", "左中指", "左人差し指", "左親指", "右親指", "右人差し指", "右中指", "右薬指", "右小指"];
+            var finger_values = [1, 2, 3, 4, 5, 6, 7, 8, 9, 0];
             for (var i = 0;i < finger_list.length;i++){
-                html = html + `<input type="checkbox" id="${finger_list[i]}" onclick="example(${key_number}, '${key_value}', '${finger_list[i]}')">` + finger_list[i] + "</button>";
+                html = html + `<input type="checkbox" id="${finger_list[i]}" name="fingers" value=${finger_values[i]} onclick="example(${key_number}, '${key_value}', '${finger_list[i]}')">` + finger_list[i] + "</button>";
+                // html = html + `<input type="checkbox" id="${finger_list[i]}" name="fingers" value=${finger_values[i]} onclick="buttonPressed('${finger_list[i]}')">` + finger_list[i] + "</button>";
             }
             document.getElementById('finger').innerHTML = html;
         }
@@ -42,17 +50,24 @@
             console.log(finger_value + "で" + key_value + "が押されました");
         }
 
-        function buttonPressed(){
-            let elements = document.getElementsByName('characters');
-            let len = elements.length;
-            let checkValue = '';
+        function buttonPressed(finger_name){
+            var input_fingers = document.querySelectorAll("input[name=fingers]:checked");
 
-            for (let i = 0; i < len; i++) {
-                if (elements.item(i).checked) {
-                    checkValue = elements.item(i).value;
-                    console.log(checkValue);
-                }
+            for (var checked_data of input_fingers) {
+                console.log(checked_data.value); // 1, 2, 5
             }
+
+            // let elements = document.getElementById(finger_name);
+            // let len = elements.length;
+            // let checkValue = '';
+            // console.log(elements.value);
+
+            // for (let i = 0; i < len; i++) {
+            //     if (elements.item(i).checked) {
+            //         checkValue = elements.item(i).value;
+            //         console.log(checkValue);
+            //     }
+            // }
         }
 
     </script>
@@ -65,7 +80,7 @@
     <br>
     <span id="finger"></span>
     <br>
-    <!-- <button id="check" onclick="buttonPressed()">ボタン</button> -->
+    <button id="check" onclick="buttonPressed()">ボタン</button>
 
 </body>
 
