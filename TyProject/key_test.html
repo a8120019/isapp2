@@ -33,7 +33,7 @@
             var html = "";
             var finger_list = ["左小指", "左薬指", "左中指", "左人差し指", "左親指", "右親指", "右人差し指", "右中指", "右薬指", "右小指"]
             for (var i = 0;i < finger_list.length;i++){
-                html = html + `<button id="${finger_list[i]}" onclick="example(${key_number}, '${key_value}', '${finger_list[i]}')">` + finger_list[i] + "</button>";
+                html = html + `<input type="checkbox" id="${finger_list[i]}" onclick="example(${key_number}, '${key_value}', '${finger_list[i]}')">` + finger_list[i] + "</button>";
             }
             document.getElementById('finger').innerHTML = html;
         }

@@ -19,7 +19,7 @@
 
         async function getUserData() {
             var me = await osql.getMe();
-            var sql = `select * from Fingering where userid = "a8120108@gsuite.si.aoyama.ac.jp";`;
+            var sql = `select * from Fingering where userid = "${me.id}";`;
             var fingering = await osql.connect(sql);
             console.log(fingering);
             var html = "<table border='1'>";
@@ -66,8 +66,22 @@
             window.location.href = "add.html";
         }
 
-        function addButtonPressed() {
+        async function addButtonPressed() {
+            var movie = document.getElementById('addURL').value;
+            var me = await osql.getMe();
+            var sql = `insert into Fingering (userid, movieURL, date) values ("${me.id}", "${movie}", now());`;
+            await osql.connect(sql);
 
+            var sql = `select * from Fingering where userid = "${me.id}" order by fingerid desc;`;
+            var yubi = await osql.connect(sql);
+            var catch_fingerid = yubi[0].fingerid;
+            console.log(catch_fingerid);
+
+            var key_list = ["Q", "W", "E", "R", "T", "Y", "U", "I", "O", "P", "BackSpace", "A", "S", "D", "F", "G", "H", "J", "K", "L", ";", "Enter", "Z", "X", "C", "V", "B", "N", "M", ",", ".", "/", "Space"];
+            for (var i = 0;i < key_list.length;i++){
+                var sql = `insert into Key_Finger (id, text) values (${catch_fingerid}, "${key_list[i]}");`;
+                await osql.connect(sql);
+            }
         }
 
     </script>
