@@ -44,6 +44,7 @@
                 // html = html + `<input type="checkbox" id="${finger_list[i]}" name="fingers" value=${finger_values[i]} onclick="buttonPressed('${finger_list[i]}')">` + finger_list[i] + "</button>";
             }
             document.getElementById('finger').innerHTML = html;
+
         }
 
         function example(key_number, key_value, finger_value){
@@ -60,24 +61,30 @@
                 // console.log(checked_data.value); // 1, 2, 5
             }
             console.log(instance);
-            var sql = `update Key_Finger set finger = "${instance}" where id = 8 AND text = "Q";`;
+
+            let elements = document.getElementsByName("characters");
+            let checkValue = '';
+
+            for (let i = 0; i < elements.length; i++) {
+                if (elements.item(i).checked) {
+                    checkValue = elements.item(i).value;
+                }
+            }
+
+            var sql = `update Key_Finger set finger = "${instance}" where id = 8 AND text = "${checkValue}";`;
             await osql.connect(sql);
 
-            var sql = `select * from Key_Finger where id = 8 AND text = "Q";`;
+            var sql = `select * from Key_Finger where id = 8 AND text = "${checkValue}";`;
             var objects = await osql.connect(sql);
-            document.getElementById('valueQ').innerHTML = objects[0].finger;
 
-            // let elements = document.getElementById(finger_name);
-            // let len = elements.length;
-            // let checkValue = '';
-            // console.log(elements.value);
+            // textを配列に戻し、合計を算出
+            var finger_nums = objects[0].finger.split(",");  // 配列に戻す
+            var finger_sum = 0;
+            for (var i = 0;i < finger_nums.length;i++){  // 合計算出
+                finger_sum += Number(finger_nums[i]);
+            }
 
-            // for (let i = 0; i < len; i++) {
-            //     if (elements.item(i).checked) {
-            //         checkValue = elements.item(i).value;
-            //         console.log(checkValue);
-            //     }
-            // }
+            document.getElementById(`value${checkValue}`).innerHTML = finger_sum;
         }
 
         async function resetPressed(){
