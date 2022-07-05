@@ -27,7 +27,7 @@
 
                 html = html + '<tr>';
                 for (var j = 0; j < 11; j++) {
-                    html = html + '<td>' + "　" + '</td>';
+                    html = html + '<td>' + `<span id=value${key_list[11 * i + j]}>` + "　" + "</span>" + '</td>';
                 }
                 html = html + '</tr>';
             }
@@ -50,7 +50,7 @@
             console.log(finger_value + "で" + key_value + "が押されました");
         }
 
-        async function buttonPressed(finger_name){
+        async function buttonPressed(){
             var input_fingers = document.querySelectorAll("input[name=fingers]:checked");
 
             var instance = [];
@@ -62,6 +62,10 @@
             console.log(instance);
             var sql = `update Key_Finger set finger = "${instance}" where id = 8 AND text = "Q";`;
             await osql.connect(sql);
+
+            var sql = `select * from Key_Finger where id = 8 AND text = "Q";`;
+            var objects = await osql.connect(sql);
+            document.getElementById('valueQ').innerHTML = objects[0].finger;
 
             // let elements = document.getElementById(finger_name);
             // let len = elements.length;
