@@ -28,7 +28,7 @@
                 var object = fingering[i];
                 html = html + '<td>' + (i + 1) + '</td>';
                 html = html + '<td>' + '<a href="personal.html?userid=' + object.name + '">' + "記録" + "</a>" + '</td>';
-                html = html + '<td>' + `<button onclick="addRecord('${object.studentid}')">運指入力</button>` + '</td>';
+                html = html + '<td>' + `<button onclick="addRecord('${object.fingerid}')">運指入力</button>` + '</td>';
                 html = html + '<td>' + object.date + '</td>';
                 html = html + '</tr>';
             }
@@ -54,10 +54,9 @@
             document.getElementById('student_list').innerHTML = html;
         }
 
-        function addRecord(student_id, student_name) {
-            sessionStorage.setItem('studentid', student_id);
-            sessionStorage.setItem('name', student_name);
-            window.location.href = "add.html";
+        function addRecord(finger_id) {
+            sessionStorage.setItem('finger_id', finger_id);
+            window.location.href = "key_test.html";
         }
 
         function addNewRecord() {
@@ -82,11 +81,14 @@
                 var sql = `insert into Key_Finger (id, text) values (${catch_fingerid}, "${key_list[i]}");`;
                 await osql.connect(sql);
             }
+
+            getUserData();
         }
 
         async function resetButtonPressed() {
             var me = await osql.getMe();
             var sql = `delete from Fingering where userid = "${me.id}";`;
+            var sql = `delete from Key_Finger;`;
             await osql.connect(sql);
             var sql = "ALTER TABLE `Fingering` auto_increment = 1;";
             await osql.connect(sql);

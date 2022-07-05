@@ -60,7 +60,7 @@
                 instance.push(checked_data.value);
                 // console.log(checked_data.value); // 1, 2, 5
             }
-            console.log(instance);
+            // console.log(instance);
 
             let elements = document.getElementsByName("characters");
             let checkValue = '';
@@ -71,10 +71,13 @@
                 }
             }
 
-            var sql = `update Key_Finger set finger = "${instance}" where id = 8 AND text = "${checkValue}";`;
+            var fingering_id = Number(sessionStorage.getItem('finger_id'));
+            // console.log(fingering_id);
+
+            var sql = `update Key_Finger set finger = "${instance}" where id = ${fingering_id} AND text = "${checkValue}";`;
             await osql.connect(sql);
 
-            var sql = `select * from Key_Finger where id = 8 AND text = "${checkValue}";`;
+            var sql = `select * from Key_Finger where id = ${fingering_id} AND text = "${checkValue}";`;
             var objects = await osql.connect(sql);
 
             // textを配列に戻し、合計を算出
@@ -88,7 +91,9 @@
         }
 
         async function resetPressed(){
-            var sql = `update Key_Finger set finger = null where id = 8;`;
+            var fingering_id = Number(sessionStorage.getItem('finger_id'));
+            // console.log(fingering_id);
+            var sql = `update Key_Finger set finger = null where id = ${fingering_id};`;
             await osql.connect(sql);
         }
 
@@ -97,7 +102,7 @@
 </head>
 
 <body>
-    <h1>テストページ</h1>
+    <h1>運指入力</h1>
     <span id="result"></span>
     <br>
     <span id="finger"></span>
