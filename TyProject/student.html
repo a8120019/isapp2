@@ -27,7 +27,7 @@
                 html = html + '<tr>';
                 var object = fingering[i];
                 html = html + '<td>' + (i + 1) + '</td>';
-                html = html + '<td>' + '<a href="personal.html?userid=' + object.name + '">' + "記録" + "</a>" + '</td>';
+                html = html + '<td>' + `<a href="personal.html" onclick = "storeRec(${object.fingerid})">` + "記録" + "</a>" + '</td>';
                 html = html + '<td>' + `<button onclick="addRecord('${object.fingerid}')">運指入力</button>` + '</td>';
                 html = html + '<td>' + object.date + '</td>';
                 html = html + '</tr>';
@@ -36,22 +36,8 @@
             document.getElementById('student_list').innerHTML = html;
         }
 
-        async function searchButtonPressed() {
-            var s_name = document.getElementById('search').value;
-            var sql = `select * from Users where name like "%${s_name}%";`;
-            var students = await osql.connect(sql);
-            var html = "<table border='1'>" + "<tr><th>" + "学生番号" + "</th><th>" + "名前" + "</th><th>" + "記録追加" + "</th><th>" + "生徒情報変更" + "</th></tr>";
-            for (var i = 0; i < students.length; i++) {
-                html = html + '<tr>';
-                var object = students[i];
-                html = html + '<td>' + object.studentid + '</td>';
-                html = html + '<td>' + '<a href="personal.html?userid=' + object.name + '">' + object.name + "</a>" + '</td>';
-                html = html + '<td>' + `<button onclick="addRecord('${object.studentid}')">記録追加</button>` + '</td>';
-                html = html + '<td>' + `<button onclick="changeStudentInfo('${object.studentid}')">生徒情報変更</button>` + '</td>';
-                html = html + '</tr>';
-            }
-            html = html + '</table>';
-            document.getElementById('student_list').innerHTML = html;
+        function storeRec(finger_id) {
+            sessionStorage.setItem('store_id', finger_id);
         }
 
         function addRecord(finger_id) {

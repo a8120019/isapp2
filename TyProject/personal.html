@@ -12,23 +12,47 @@
         osql.requireLogin();
 
         $(document).ready(function () {
-            
+            makeList();
         });
 
-        async function getUserData() {
+        async function makeList(){
             var me = await osql.getMe();
-            var sql = `insert ignore into Users (id, fname, lname) values ("${me.id}", "${me.fname}", "${me.lname}");`;
-            await osql.connect(sql);
-            document.getElementById('name').innerHTML = me.fname + " " + me.lname;
+            document.getElementById('name').innerHTML = me.fname;
+            var fingering_id = Number(sessionStorage.getItem('store_id'));
+            var html = "<table border='1'>";
+            var key_list = ["Q", "W", "E", "R", "T", "Y", "U", "I", "O", "P", "BackSpace", "A", "S", "D", "F", "G", "H", "J", "K", "L", ";", "Enter", "Z", "X", "C", "V", "B", "N", "M", ",", ".", "/", "Space"]
+            for (var i = 0; i < 3; i++) {
+                html = html + '<tr>';
+                for (var j = 0; j < 11; j++) {
+                    html = html + '<td>' + `<span id=char"${11 * i + j}">` + key_list[11 * i + j] + "</span>" + '</td>';
+                }
+                html = html + '</tr>';
+
+                html = html + '<tr>';
+                for (var j = 0; j < 11; j++) {
+                    var sql = `select * from Key_Finger where id = ${fingering_id} AND text = "${key_list[11 * i + j]}";`;
+                    var fingers = await osql.connect(sql);
+                    console.log(fingers);
+                    if (fingers[0].finger == null){
+                        html = html + '<td>' + `<span id=value${key_list[11 * i + j]}>` + "　" + "</span>" + '</td>';
+                    } else {
+                        html = html + '<td>' + `<span id=value${key_list[11 * i + j]}>` + fingers[0].finger + "</span>" + '</td>';
+                    }
+                }
+                html = html + '</tr>';
+            }
+            html = html + '</table>';
+            document.getElementById('result').innerHTML = html;
         }
+        
     </script>
 
 </head>
 
 <body>
-    <h1><span id="name">xx</span>さんの個人記録</h1>
+    <h1><span id="name"></span>さんの個人記録</h1>
     <hr>
-
+    <span id="result"></span>
 </body>
 
 </html>
