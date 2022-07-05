@@ -88,6 +88,7 @@
         async function resetButtonPressed() {
             var me = await osql.getMe();
             var sql = `delete from Fingering where userid = "${me.id}";`;
+            await osql.connect(sql);
             var sql = `delete from Key_Finger;`;
             await osql.connect(sql);
             var sql = "ALTER TABLE `Fingering` auto_increment = 1;";
@@ -102,6 +103,8 @@
 <body>
     <h1>学生ページ</h1>
     <hr>
+    https://drive.google.com/drive/folders/hogehoge
+    <br>
     <input id="addURL" type="url" placeholder="動画URLを入力"><button id="add_movie" onclick="addButtonPressed()">動画追加</button>
     <button id="remove_movie" onclick="resetButtonPressed()">リセット</button>
     <br><br>
