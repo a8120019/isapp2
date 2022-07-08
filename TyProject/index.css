@@ -6,17 +6,21 @@
 }
 
 #movie_rotate_0 {
-    transform: rotate(0deg);
+    display: block;
+    -webkit-transform: rotate(0deg);
 }
 
 #movie_rotate_90 {
-    transform: rotate(90deg);
+    display: block;
+    -webkit-transform: rotate(90deg);
 }
 
 #movie_rotate_180 {
-    transform: rotate(0, 5);
+    display: block;
+    -webkit-transform: rotate(180deg);
 }
 
 #movie_rotate_270 {
-    transform: rotate(270deg);
+    display: block;
+    -webkit-transform: rotate(270deg);
 }
