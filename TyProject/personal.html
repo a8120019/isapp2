@@ -13,6 +13,7 @@
 
         $(document).ready(function () {
             makeList();
+            showMovie();
         });
 
         async function makeList(){
@@ -44,6 +45,16 @@
             html = html + '</table>';
             document.getElementById('result').innerHTML = html;
         }
+
+        async function showMovie() {
+            var fingering_id = Number(sessionStorage.getItem('store_id'));
+            var sql = `select * from Fingering where fingerid = ${fingering_id};`;
+            var objects = await osql.connect(sql);
+            var before_rename = objects[0].movieURL;
+            // document.getElementById('movie').innerHTML = before_rename.replace("view", "preview");
+            var html = `<iframe src="${before_rename.replace("view", "preview")}" width="704" height="396"></iframe>`
+            document.getElementById('movie').innerHTML = html;
+        }
         
     </script>
 
@@ -53,6 +64,8 @@
     <h1><span id="name"></span>さんの個人記録</h1>
     <hr>
     <span id="result"></span>
+    <br>
+    <span id="movie"></span>
     <hr>
     <a href="student.html">ホームに戻る</a>
 </body>
