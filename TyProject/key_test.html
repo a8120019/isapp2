@@ -36,21 +36,21 @@
             document.getElementById('result').innerHTML = html;
         }
 
-        async function showMovie(){
+        async function showMovie() {
             var fingering_id = Number(sessionStorage.getItem('finger_id'));
             var sql = `select * from Fingering where fingerid = ${fingering_id};`;
             var objects = await osql.connect(sql);
             var before_rename = objects[0].movieURL;
             // document.getElementById('movie').innerHTML = before_rename.replace("view", "preview");
-            var html = `<span id="movie_rotate_180"><iframe seamless src="${before_rename.replace("view", "preview")}" width="704" height="396"></iframe></span>`
+            var html = `<video controls source src="${before_rename.replace("view", "preview")}" type="video/MOV"></video>`
             document.getElementById('movie').innerHTML = html;
         }
 
-        function fingerButton(key_number, key_value){
+        function fingerButton(key_number, key_value) {
             var html = "";
             var finger_list = ["左小指", "左薬指", "左中指", "左人差し指", "左親指", "右親指", "右人差し指", "右中指", "右薬指", "右小指"];
             var finger_values = [1, 2, 3, 4, 5, 6, 7, 8, 9, 0];
-            for (var i = 0;i < finger_list.length;i++){
+            for (var i = 0; i < finger_list.length; i++) {
                 html = html + `<input type="checkbox" id="${finger_list[i]}" name="fingers" value=${finger_values[i]} onclick="example(${key_number}, '${key_value}', '${finger_list[i]}')">` + finger_list[i] + "</button>";
                 // html = html + `<input type="checkbox" id="${finger_list[i]}" name="fingers" value=${finger_values[i]} onclick="buttonPressed('${finger_list[i]}')">` + finger_list[i] + "</button>";
             }
@@ -58,11 +58,11 @@
 
         }
 
-        function example(key_number, key_value, finger_value){
+        function example(key_number, key_value, finger_value) {
             console.log(finger_value + "で" + key_value + "が押されました");
         }
 
-        async function buttonPressed(){
+        async function buttonPressed() {
             var input_fingers = document.querySelectorAll("input[name=fingers]:checked");
 
             var instance = [];
@@ -94,14 +94,14 @@
             // textを配列に戻し、合計を算出
             var finger_nums = objects[0].finger.split(",");  // 配列に戻す
             var finger_sum = 0;
-            for (var i = 0;i < finger_nums.length;i++){  // 合計算出
+            for (var i = 0; i < finger_nums.length; i++) {  // 合計算出
                 finger_sum += Number(finger_nums[i]);
             }
 
             document.getElementById(`value${checkValue}`).innerHTML = finger_sum;
         }
 
-        async function resetPressed(){
+        async function resetPressed() {
             var fingering_id = Number(sessionStorage.getItem('finger_id'));
             // console.log(fingering_id);
             var sql = `update Key_Finger set finger = null where id = ${fingering_id};`;
