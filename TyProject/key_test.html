@@ -12,10 +12,11 @@
     <script>
 
         $(document).ready(function () {
-            test();
+            showKey();
+            showMovie();
         });
 
-        function test() {
+        function showKey() {
             var html = "<table border='1'>";
             var key_list = ["Q", "W", "E", "R", "T", "Y", "U", "I", "O", "P", "BackSpace", "A", "S", "D", "F", "G", "H", "J", "K", "L", ";", "Enter", "Z", "X", "C", "V", "B", "N", "M", ",", ".", "/", "Space"]
             for (var i = 0; i < 3; i++) {
@@ -33,6 +34,16 @@
             }
             html = html + '</table>';
             document.getElementById('result').innerHTML = html;
+        }
+
+        async function showMovie(){
+            var fingering_id = Number(sessionStorage.getItem('finger_id'));
+            var sql = `select * from Fingering where fingerid = ${fingering_id};`;
+            var objects = await osql.connect(sql);
+            var before_rename = objects[0].movieURL;
+            // document.getElementById('movie').innerHTML = before_rename.replace("view", "preview");
+            var html = `<iframe src="${before_rename.replace("view", "preview")}" width="704" height="396"></iframe>`
+            document.getElementById('movie').innerHTML = html;
         }
 
         function fingerButton(key_number, key_value){
@@ -106,10 +117,11 @@
     <span id="result"></span>
     <br>
     <span id="finger"></span>
-    <br>
     <button id="check" onclick="buttonPressed()">ボタン</button>
     <br>
     <button id="reset" onclick="resetPressed()">リセット</button>
+    <br>
+    <span id="movie"></span>
     <hr>
     <a href="student.html">ホームに戻る</a>
 

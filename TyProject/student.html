@@ -67,8 +67,9 @@
                 var sql = `insert into Key_Finger (id, text) values (${catch_fingerid}, "${key_list[i]}");`;
                 await osql.connect(sql);
             }
-
             getUserData();
+
+            document.getElementById('addURL').value = "";
         }
 
         async function resetButtonPressed() {
