@@ -4,7 +4,15 @@
     float: right;
 
 }
-
+#result{
+    display: block
+}
+#finger{
+    display: block
+}
+#Rotation{
+    display: block
+}
 #movie_rotate_0 {
     display: block;
     -webkit-transform: rotate(0deg);
