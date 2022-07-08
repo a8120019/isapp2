@@ -53,7 +53,7 @@
             var before_rename = objects[0].movieURL;
             // document.getElementById('movie').innerHTML = before_rename.replace("view", "preview");
             var html = `<iframe src="${before_rename.replace("view", "preview")}" width="704" height="396"></iframe>`
-            document.getElementById('movie').innerHTML = html;
+            document.getElementById('movie_rotate_180').innerHTML = html;
         }
         
     </script>
@@ -65,7 +65,7 @@
     <hr>
     <span id="result"></span>
     <br>
-    <span id="movie"></span>
+    <span id="movie_rotate_180"></span>
     <hr>
     <a href="student.html">ホームに戻る</a>
 </body>

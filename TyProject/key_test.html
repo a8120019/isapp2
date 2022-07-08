@@ -42,7 +42,7 @@
             var objects = await osql.connect(sql);
             var before_rename = objects[0].movieURL;
             // document.getElementById('movie').innerHTML = before_rename.replace("view", "preview");
-            var html = `<iframe src="${before_rename.replace("view", "preview")}" width="704" height="396"></iframe>`
+            var html = `<span id="movie_rotate_180"><iframe seamless src="${before_rename.replace("view", "preview")}" width="704" height="396"></iframe></span>`
             document.getElementById('movie').innerHTML = html;
         }
 
