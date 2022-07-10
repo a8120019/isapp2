@@ -42,7 +42,7 @@
             var objects = await osql.connect(sql);
             var before_rename = objects[0].movieURL;
             // document.getElementById('movie').innerHTML = before_rename.replace("view", "preview");
-            var html = `<span id="movie_rotate_${angle}"><iframe seamless src="${before_rename.replace("view", "preview")}" width="704" height="396"></iframe></span>`
+            var html = `<div id="movie_rotate_${angle}"><iframe seamless src="${before_rename.replace("view", "preview")}" width="704" height="396"></iframe></div>`
             document.getElementById('movie').innerHTML = html;
         }
 
@@ -118,6 +118,9 @@
 
         function leftRotate() {
             angle -= 90;
+            if (angle == -90) {
+                angle = 270;
+            }
             showMovie();
             if (angle == -360) {
                 angle = 0
@@ -129,14 +132,15 @@
 
 <body>
     <h1>運指入力</h1>
-    <span id="result"></span>
+    <div id="result"></div>
     <br>
-    <span id="finger"></span>
+    <div id="finger"></div>
     <button id="check" onclick="buttonPressed()">ボタン</button>
     <br>
     <button id="reset" onclick="resetPressed()">リセット</button>
     <br>
-    <span id="movie"></span>
+    <div id="movie"></div>
+    <br>
     <span id="Rotation"><button onclick="rightRotate()">右回転</button>　　　<button
             onclick="leftRotate()">左回転</button></span>
     <hr>

@@ -2,33 +2,60 @@
 
 #admin {
     float: right;
+}
 
+#result {
+    display: inline-block
 }
-#result{
+
+#finger {
     display: block
 }
-#finger{
-    display: block
+
+#reset {
+    display: inline-block;
 }
-#Rotation{
-    display: block
-}
-#movie_rotate_0 {
+
+#Rotation {
     display: block;
+}
+
+#movie {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 701px;
+    width: 701px;
+}
+
+#movie_rotate_0 {
+    -webkit-transform-origin: center;
+    position: absolute;
+    display: table-cell;
+    vertical-align: middle;
     -webkit-transform: rotate(0deg);
 }
 
 #movie_rotate_90 {
-    display: block;
+    -webkit-transform-origin: center;
+    position: absolute;
+    display: table-cell;
+    vertical-align: middle;
     -webkit-transform: rotate(90deg);
 }
 
 #movie_rotate_180 {
-    display: block;
+    -webkit-transform-origin: center;
+    position: absolute;
+    display: table-cell;
+    vertical-align: middle;
     -webkit-transform: rotate(180deg);
 }
 
 #movie_rotate_270 {
-    display: block;
+    -webkit-transform-origin: center;
+    position: absolute;
+    display: table-cell;
+    vertical-align: middle;
     -webkit-transform: rotate(270deg);
 }
