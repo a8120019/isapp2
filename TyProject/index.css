@@ -1,23 +1,7 @@
 @charset "utf-8";
 
-#admin {
+#back {
     float: right;
-}
-
-#result {
-    display: inline-block
-}
-
-#finger {
-    display: block
-}
-
-#reset {
-    display: inline-block;
-}
-
-#Rotation {
-    display: inline-block;
 }
 
 #movie_horizon {

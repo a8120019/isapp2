@@ -20,18 +20,21 @@
         async function getUserData() {
             var sql = `select * from Users;`;
             var students = await osql.connect(sql);
-            var html = "<table border='1'>" + "<tr><th>" + "学生番号" + "</th><th>" + "名前" + "</th><th>" + "記録追加" + "</th><th>" + "生徒情報変更" + "</th></tr>";
+            var html = "<table border='1'>" + "<tr><th>" + "学生番号" + "</th><th>" + "名前" + "</th></tr>";
             for (var i = 0; i < students.length; i++) {
                 html = html + '<tr>';
                 var object = students[i];
-                html = html + '<td>' + object.studentid + '</td>';
-                html = html + '<td>' + '<a href="personal.html?userid=' + object.name + '">' + object.name + "</a>" + '</td>';
-                html = html + '<td>' + `<button onclick="addRecord('${object.studentid}')">記録追加</button>` + '</td>';
-                html = html + '<td>' + `<button onclick="changeStudentInfo('${object.studentid}')">生徒情報変更</button>` + '</td>';
+                var student_id = "1" + object.id.substring(1, 8);
+                html = html + '<td>' + student_id + '</td>';
+                html = html + '<td>' + `<a href="student4admin.html" onclick = "storeStudent('${object.id}')">` + object.fname + " " + object.lname + "</a>" + '</td>';
                 html = html + '</tr>';
             }
             html = html + '</table>';
             document.getElementById('student_list').innerHTML = html;
+        }
+
+        function storeStudent(studentid) {
+            sessionStorage.setItem('student_id', studentid);
         }
 
         async function searchButtonPressed(){
@@ -76,9 +79,7 @@
     <h1>管理者ページ</h1>
     <hr>
     <input id="search" type="textfield"><button id="search_button" onclick="searchButtonPressed()">検索</button>
-    <br><br>
-    <button id="new_student" onclick="addNewRecord()">新規生徒追加</button>
-    <br><br>
+    <br><h2>生徒一覧</h2>
     <span id="student_list"></span>
 </body>
 

@@ -14,30 +14,24 @@
         osql.requireLogin();
 
         $(document).ready(function () {
-            addUser();
             getUserData();
         });
 
-        async function addUser() {
-            var me = await osql.getMe();
-            // var student_id = "1" + me.id.substring(1, 8);
-            // console.log(student_id);
-            var sql = `insert ignore into Users values ("${me.id}", "${me.fname}", "${me.lname}");`;
-            await osql.connect(sql);
-        }
-
         async function getUserData() {
-            var me = await osql.getMe();
-            document.getElementById('student_name').innerHTML = me.fname;
-            var sql = `select * from Fingering where userid = "${me.id}";`;
+            var student_id = sessionStorage.getItem('student_id');
+            var sql = `select * from Users where id = "${student_id}";`;
+            var student = await osql.connect(sql);
+            var name = student[0].fname
+            document.getElementById('student_name').innerHTML = name;
+            var sql = `select * from Fingering where userid = "${student_id}";`;
             var fingering = await osql.connect(sql);
-            console.log(fingering);
+            console.log(student_id);
             var html = "<table border='1'>";
             for (var i = 0; i < fingering.length; i++) {
                 html = html + '<tr>';
                 var object = fingering[i];
                 html = html + '<td>' + (i + 1) + '</td>';
-                html = html + '<td>' + `<a href="personal.html" onclick = "storeRec(${object.fingerid}, '${me.fname}')">` + "記録" + "</a>" + '</td>';
+                html = html + '<td>' + `<a href="personal.html" onclick = "storeRec(${object.fingerid}, '${name}')">` + "記録" + "</a>" + '</td>';
                 html = html + '<td>' + `<button onclick="addRecord('${object.fingerid}')">運指入力</button>` + '</td>';
                 html = html + '<td>' + object.date + '</td>';
                 html = html + '</tr>';
@@ -48,7 +42,7 @@
 
         function storeRec(finger_id, fname) {
             sessionStorage.setItem('store_id', finger_id);
-            essionStorage.setItem('fname', fname);
+            sessionStorage.setItem('fname', fname);
         }
 
         function addRecord(finger_id) {
@@ -60,26 +54,6 @@
             sessionStorage.removeItem('id');
             sessionStorage.removeItem('name');
             window.location.href = "add.html";
-        }
-
-        async function addButtonPressed() {
-            var movie = document.getElementById('addURL').value;
-            var me = await osql.getMe();
-            var sql = `insert into Fingering (userid, movieURL, date) values ("${me.id}", "${movie}", now());`;
-            await osql.connect(sql);
-
-            var sql = `select * from Fingering where userid = "${me.id}" order by fingerid desc;`;
-            var yubi = await osql.connect(sql);
-            var catch_fingerid = yubi[0].fingerid;
-
-            var key_list = ["Q", "W", "E", "R", "T", "Y", "U", "I", "O", "P", "BackSpace", "A", "S", "D", "F", "G", "H", "J", "K", "L", ";", "Enter", "Z", "X", "C", "V", "B", "N", "M", ",", ".", "/", "Space"];
-            for (var i = 0; i < key_list.length; i++) {
-                var sql = `insert into Key_Finger (id, text) values (${catch_fingerid}, "${key_list[i]}");`;
-                await osql.connect(sql);
-            }
-            getUserData();
-
-            document.getElementById('addURL').value = "";
         }
 
         async function resetButtonPressed() {
@@ -99,11 +73,9 @@
 
 <body>
     <h1>学生ページ</h1>
-    ようこそ、<span id="student_name"></span>さん
+    ようこそ、<span id="student_name"></span>さん<span id="back"><a href="admin.html">生徒一覧へ戻る</a></span>
     <hr>
     <br>
-    <input id="addURL" type="url" placeholder="動画URLを入力"><button id="add_movie"
-        onclick="addButtonPressed()">動画追加</button>
     <button id="remove_movie" onclick="resetButtonPressed()">リセット</button>
     <br><br>
     <span id="student_list"></span>
