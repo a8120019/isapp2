@@ -60,10 +60,9 @@
             var sql = `select * from Fingering where userid = "${me.id}" order by fingerid desc;`;
             var yubi = await osql.connect(sql);
             var catch_fingerid = yubi[0].fingerid;
-            console.log(catch_fingerid);
 
             var key_list = ["Q", "W", "E", "R", "T", "Y", "U", "I", "O", "P", "BackSpace", "A", "S", "D", "F", "G", "H", "J", "K", "L", ";", "Enter", "Z", "X", "C", "V", "B", "N", "M", ",", ".", "/", "Space"];
-            for (var i = 0;i < key_list.length;i++){
+            for (var i = 0; i < key_list.length; i++) {
                 var sql = `insert into Key_Finger (id, text) values (${catch_fingerid}, "${key_list[i]}");`;
                 await osql.connect(sql);
             }
@@ -92,7 +91,8 @@
     <hr>
     https://drive.google.com/drive/folders/hogehoge
     <br>
-    <input id="addURL" type="url" placeholder="動画URLを入力"><button id="add_movie" onclick="addButtonPressed()">動画追加</button>
+    <input id="addURL" type="url" placeholder="動画URLを入力"><button id="add_movie"
+        onclick="addButtonPressed()">動画追加</button>
     <button id="remove_movie" onclick="resetButtonPressed()">リセット</button>
     <br><br>
     <span id="student_list"></span>
