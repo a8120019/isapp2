@@ -38,17 +38,16 @@
         }
 
         async function searchButtonPressed(){
-            var s_name = document.getElementById('search').value;
-            var sql = `select * from Users where name like "%${s_name}%";`;
+            var s_id = "a" + document.getElementById('search').value.substring(1, 8) + "@gsuite.si.aoyama.ac.jp";
+            var sql = `select * from Users where id = "${s_id}";`;
             var students = await osql.connect(sql);
-            var html = "<table border='1'>" + "<tr><th>" + "学生番号" + "</th><th>" + "名前" + "</th><th>" + "記録追加" + "</th><th>" + "生徒情報変更" + "</th></tr>";
+            var html = "<table border='1'>" + "<tr><th>" + "学生番号" + "</th><th>" + "名前" + "</th></tr>";
             for (var i = 0; i < students.length; i++) {
                 html = html + '<tr>';
                 var object = students[i];
-                html = html + '<td>' + object.studentid + '</td>';
-                html = html + '<td>' + '<a href="personal.html?userid=' + object.name + '">' + object.name + "</a>" + '</td>';
-                html = html + '<td>' + `<button onclick="addRecord('${object.studentid}')">記録追加</button>` + '</td>';
-                html = html + '<td>' + `<button onclick="changeStudentInfo('${object.studentid}')">生徒情報変更</button>` + '</td>';
+                var student_id = "1" + object.id.substring(1, 8);
+                html = html + '<td>' + student_id + '</td>';
+                html = html + '<td>' + `<a href="student4admin.html" onclick = "storeStudent('${object.id}')">` + object.fname + " " + object.lname + "</a>" + '</td>';
                 html = html + '</tr>';
             }
             html = html + '</table>';
@@ -78,8 +77,9 @@
 <body>
     <h1>管理者ページ</h1>
     <hr>
-    <input id="search" type="textfield"><button id="search_button" onclick="searchButtonPressed()">検索</button>
-    <br><h2>生徒一覧</h2>
+    <h2>生徒一覧</h2>
+    <input id="search" type="textfield" placeholder="学生番号を入力"><button id="search_button" onclick="searchButtonPressed()">検索</button>
+    <br><br>
     <span id="student_list"></span>
 </body>
 
