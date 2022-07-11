@@ -51,7 +51,7 @@
             var finger_list = ["左小指", "左薬指", "左中指", "左人差し指", "左親指", "右親指", "右人差し指", "右中指", "右薬指", "右小指"];
             var finger_values = [1, 2, 3, 4, 5, 6, 7, 8, 9, 0];
             for (var i = 0; i < finger_list.length; i++) {
-                html = html + `<input type="checkbox" id="${finger_list[i]}" name="fingers" value=${finger_values[i]} onclick="example(${key_number}, '${key_value}', '${finger_list[i]}')">` + finger_list[i] + "</button>";
+                html = html + `<input type="checkbox" id="${finger_list[i]}" name="fingers" value=${finger_values[i]} onclick="example(${key_number}, '${key_value}', '${finger_list[i]}')">` + `<label for="${finger_list[i]}">` + finger_list[i] + "</label>" + "</button>";
                 // html = html + `<input type="checkbox" id="${finger_list[i]}" name="fingers" value=${finger_values[i]} onclick="buttonPressed('${finger_list[i]}')">` + finger_list[i] + "</button>";
             }
             document.getElementById('finger').innerHTML = html;
