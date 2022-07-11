@@ -14,8 +14,17 @@
         osql.requireLogin();
 
         $(document).ready(function () {
+            addUser();
             getUserData();
         });
+
+        async function addUser() {
+            var me = await osql.getMe();
+            // var student_id = "1" + me.id.substring(1, 8);
+            // console.log(student_id);
+            var sql = `insert ignore into Users values ("${me.id}", "${me.fname}", "${me.lname}");`;
+            await osql.connect(sql);
+        }
 
         async function getUserData() {
             var me = await osql.getMe();
