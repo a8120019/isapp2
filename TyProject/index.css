@@ -20,12 +20,20 @@
     display: inline-block;
 }
 
-#movie {
+#movie_horizon {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 406px;
+    width: 708px;
+}
+
+#movie_vertical {
     display: flex;
     justify-content: center;
     align-items: center;
     height: 708px;
-    width: 708px;
+    width: 406px;
 }
 
 #movie_rotate_0 {

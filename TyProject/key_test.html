@@ -11,6 +11,7 @@
 
     <script>
         var angle = 0;
+        var direction = "horizon";
         $(document).ready(function () {
             showKey();
             showMovie();
@@ -42,8 +43,8 @@
             var objects = await osql.connect(sql);
             var before_rename = objects[0].movieURL;
             // document.getElementById('movie').innerHTML = before_rename.replace("view", "preview");
-            var html = `<div id="movie_rotate_${angle}"><iframe seamless src="${before_rename.replace("view", "preview")}" width="704" height="396"></iframe></div>`
-            document.getElementById('movie').innerHTML = html;
+            var html = `<div id="movie_${direction}"><div id="movie_rotate_${angle}"><iframe seamless src="${before_rename.replace("view", "preview")}" width="704" height="396"></iframe></div></div>`
+            document.getElementById('movie_parent').innerHTML = html;
         }
 
         function fingerButton(key_number, key_value) {
@@ -110,10 +111,15 @@
 
         function rightRotate() {
             angle += 90;
-            showMovie();
             if (angle == 360) {
                 angle = 0
             }
+            if (angle == 90 || angle == 270) {
+                direction = "vertical";
+            } else {
+                direction = "horizon";
+            }
+            showMovie();
         }
 
         function leftRotate() {
@@ -121,10 +127,12 @@
             if (angle == -90) {
                 angle = 270;
             }
-            showMovie();
-            if (angle == -360) {
-                angle = 0
+            if (angle == 90 || angle == 270) {
+                direction = "vertical";
+            } else {
+                direction = "horizon";
             }
+            showMovie();
         }
     </script>
 
@@ -139,10 +147,10 @@
     <br>
     <button id="reset" onclick="resetPressed()">リセット</button>
     <br>
-    <div id="movie"></div>
+    <div id="movie_parent"></div>
     <br>
-    <span id="Rotation"><button onclick="rightRotate()">右回転</button>　　　<button
-            onclick="leftRotate()">左回転</button></span>
+    <span id="Rotation"><button onclick="leftRotate()">左回転</button>　　　<button
+            onclick="rightRotate()">右回転</button></span>
     <hr>
     <a href="student.html">ホームに戻る</a>
 
