@@ -17,7 +17,8 @@
             showMovie();
         });
 
-        function showKey() {
+        async function showKey() {
+            var fingering_id = Number(sessionStorage.getItem('finger_id'));
             var html = "<table border='1'>";
             var key_list = ["Q", "W", "E", "R", "T", "Y", "U", "I", "O", "P", "BackSpace", "A", "S", "D", "F", "G", "H", "J", "K", "L", ";", "Enter", "Z", "X", "C", "V", "B", "N", "M", ",", ".", "/", "Space"]
             for (var i = 0; i < 3; i++) {
@@ -29,7 +30,23 @@
 
                 html = html + '<tr>';
                 for (var j = 0; j < 11; j++) {
-                    html = html + '<td>' + `<span id=value${key_list[11 * i + j]}>` + "　" + "</span>" + '</td>';
+                    var sql = `select * from Key_Finger where id = ${fingering_id} AND text = "${key_list[11 * i + j]}";`;
+                    var fingers = await osql.connect(sql);
+                    if (fingers[0].finger == null) {
+                        html = html + '<td>' + `<span id=value${key_list[11 * i + j]}>` + "　" + "</span>" + '</td>';
+                    } else {
+                        var sql = `select * from Key_Finger where id = ${fingering_id} AND text = "${key_list[11 * i + j]}";`;
+                        var numbers = await osql.connect(sql);
+
+                        // textを配列に戻し、合計を算出
+                        var finger_nums = numbers[0].finger.split(",");  // 配列に戻す
+                        var finger_sum = 0;
+                        for (var k = 0; k < finger_nums.length; k++) {  // 合計算出
+                            finger_sum += Number(finger_nums[k]);
+                        }
+
+                        html = html + '<td>' + `<span id=value${key_list[11 * i + j]}>` + finger_sum + "</span>" + '</td>';
+                    }
                 }
                 html = html + '</tr>';
             }
@@ -145,7 +162,7 @@
     <div id="finger"></div>
     <button id="check" onclick="buttonPressed()">ボタン</button>
     <br>
-    <button id="reset" onclick="resetPressed()">リセット</button>
+    <!-- <button id="reset" onclick="resetPressed()">リセット</button> -->
     <br>
     <div id="movie_parent"></div>
     <br>
