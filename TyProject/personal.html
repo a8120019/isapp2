@@ -3,12 +3,14 @@
 <html>
 
 <head>
+    <link rel="stylesheet" href="index.css">
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 
     <script type="text/javascript" src="lib/jquery.min.js"></script>
     <script type="text/javascript" src="lib/osql.js"></script>
 
     <script>
+        var angle = 0;
         osql.requireLogin();
 
         $(document).ready(function () {
@@ -16,7 +18,7 @@
             showMovie();
         });
 
-        async function makeList(){
+        async function makeList() {
             var me = await osql.getMe();
             document.getElementById('name').innerHTML = me.fname;
             var fingering_id = Number(sessionStorage.getItem('store_id'));
@@ -34,7 +36,7 @@
                     var sql = `select * from Key_Finger where id = ${fingering_id} AND text = "${key_list[11 * i + j]}";`;
                     var fingers = await osql.connect(sql);
                     console.log(fingers);
-                    if (fingers[0].finger == null){
+                    if (fingers[0].finger == null) {
                         html = html + '<td>' + `<span id=value${key_list[11 * i + j]}>` + "　" + "</span>" + '</td>';
                     } else {
                         html = html + '<td>' + `<span id=value${key_list[11 * i + j]}>` + fingers[0].finger + "</span>" + '</td>';
@@ -52,10 +54,28 @@
             var objects = await osql.connect(sql);
             var before_rename = objects[0].movieURL;
             // document.getElementById('movie').innerHTML = before_rename.replace("view", "preview");
-            var html = `<iframe src="${before_rename.replace("view", "preview")}" width="704" height="396"></iframe>`
-            document.getElementById('movie_rotate_180').innerHTML = html;
+            var html = `<div id="movie_rotate_${angle}"><iframe seamless src="${before_rename.replace("view", "preview")}" width="704" height="396"></iframe></div>`
+            document.getElementById('movie').innerHTML = html;
         }
-        
+
+        function rightRotate() {
+            angle += 90;
+            showMovie();
+            if (angle == 360) {
+                angle = 0
+            }
+        }
+
+        function leftRotate() {
+            angle -= 90;
+            if (angle == -90) {
+                angle = 270;
+            }
+            showMovie();
+            if (angle == -360) {
+                angle = 0
+            }
+        }
     </script>
 
 </head>
@@ -65,7 +85,10 @@
     <hr>
     <span id="result"></span>
     <br>
-    <span id="movie_rotate_180"></span>
+    <div id="movie"></div>
+    <br>
+    <span id="Rotation"><button onclick="rightRotate()">右回転</button>　　　<button
+            onclick="leftRotate()">左回転</button></span>
     <hr>
     <a href="student.html">ホームに戻る</a>
 </body>
