@@ -35,7 +35,7 @@
                 for (var j = 0; j < 11; j++) {
                     var sql = `select * from Key_Finger where id = ${fingering_id} AND text = "${key_list[11 * i + j]}";`;
                     var fingers = await osql.connect(sql);
-                    console.log(fingers);
+                    // console.log(fingers);
                     if (fingers[0].finger == null) {
                         html = html + '<td>' + `<span id=value${key_list[11 * i + j]}>` + "　" + "</span>" + '</td>';
                     } else {
