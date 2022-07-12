@@ -4,8 +4,15 @@
     float: right;
 }
 
-#test {
-    height: 406px;
+#hands_img {
+    height: calc(100% - 708px);
+    width: calc(100% - 708px);
+    max-height: 406px;
+    max-width: 541px;
+}
+
+#wrong {
+    background-color: red;
 }
 
 #movie_parent {

@@ -45,9 +45,13 @@
 
                         // textを配列に戻し、合計を算出
                         var finger_nums = numbers[0].finger.split(",");  // 配列に戻す
-                        var finger_sum = 0;
-                        for (var k = 0; k < finger_nums.length; k++) {  // 合計算出
-                            finger_sum += Number(finger_nums[k]);
+                        if (finger_nums == "null") {
+                            var finger_sum = "";
+                        } else {
+                            var finger_sum = 0;
+                            for (var k = 0; k < finger_nums.length; k++) {  // 合計算出
+                                finger_sum += Number(finger_nums[k]);
+                            }
                         }
 
                         html = html + '<td>' + `<span id=value${key_list[11 * i + j]}>` + finger_sum + "</span>" + '</td>';
@@ -65,7 +69,7 @@
             var objects = await osql.connect(sql);
             var before_rename = objects[0].movieURL;
             // document.getElementById('movie').innerHTML = before_rename.replace("view", "preview");
-            var html = `<div id="movie_${direction}"><div id="movie_rotate_${angle}"><iframe seamless src="${before_rename.replace("view", "preview")}" width="704" height="396"></iframe></div></div>`
+            var html = `<div id="movie_${direction}"><div id="movie_rotate_${angle}"><iframe seamless src="${before_rename.replace("view", "preview")}" width="704" height="396"></iframe></div></div><img id="hands_img" src="hands_num.jpg">`
             document.getElementById('movie_parent').innerHTML = html;
         }
 
