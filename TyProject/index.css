@@ -4,6 +4,10 @@
     float: right;
 }
 
+#text_center {
+    text-align: center
+}
+
 #movie_horizon {
     display: flex;
     justify-content: center;

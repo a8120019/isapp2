@@ -12,22 +12,19 @@
     <script>
         var angle = 0;
         var direction = "horizon";
-        osql.requireLogin();
-
         $(document).ready(function () {
-            makeList();
+            showKey();
             showMovie();
         });
 
-        async function makeList() {
-            document.getElementById('name').innerHTML = sessionStorage.getItem('fname');
-            var fingering_id = Number(sessionStorage.getItem('store_id'));
+        async function showKey() {
+            var fingering_id = Number(sessionStorage.getItem('finger_id'));
             var html = "<table border='1'>";
             var key_list = ["Q", "W", "E", "R", "T", "Y", "U", "I", "O", "P", "BackSpace", "A", "S", "D", "F", "G", "H", "J", "K", "L", ";", "Enter", "Z", "X", "C", "V", "B", "N", "M", ",", ".", "/", "Space"]
             for (var i = 0; i < 3; i++) {
                 html = html + '<tr>';
                 for (var j = 0; j < 11; j++) {
-                    html = html + '<td>' + "<span id=text_center>" + `<span id=char"${11 * i + j}">` + key_list[11 * i + j] + "</span>" + "</span>" + '</td>';
+                    html = html + '<td>' + `<span id="char${11 * i + j}")">` + key_list[11 * i + j] + '</td>';
                 }
                 html = html + '</tr>';
 
@@ -35,9 +32,8 @@
                 for (var j = 0; j < 11; j++) {
                     var sql = `select * from Key_Finger where id = ${fingering_id} AND text = "${key_list[11 * i + j]}";`;
                     var fingers = await osql.connect(sql);
-                    // console.log(fingers);
                     if (fingers[0].finger == null) {
-                        html = html + '<td>' + `<span id=value${key_list[11 * i + j]}>` + "　" + "</span>" + '</td>';
+                        html = html + '<td>' + `<input id=value${key_list[11 * i + j]} size=3>` + '</td>';
                     } else {
                         var sql = `select * from Key_Finger where id = ${fingering_id} AND text = "${key_list[11 * i + j]}";`;
                         var numbers = await osql.connect(sql);
@@ -49,8 +45,7 @@
                             finger_sum += Number(finger_nums[k]);
                         }
 
-                        html = html + '<td>' + `<span id=value${key_list[11 * i + j]}>` + "　" + finger_sum + "　" + "</span>" + '</td>';  // 足したバージョン
-                        // html = html + '<td>' + `<span id=value${key_list[11 * i + j]}>` + fingers[0].finger + "</span>" + '</td>';  // 足してないバージョン
+                        html = html + '<td>' + `<input id=value${key_list[11 * i + j]} size=3 value="${finger_sum}">` + '</td>';
                     }
                 }
                 html = html + '</tr>';
@@ -60,13 +55,35 @@
         }
 
         async function showMovie() {
-            var fingering_id = Number(sessionStorage.getItem('store_id'));
+            var fingering_id = Number(sessionStorage.getItem('finger_id'));
             var sql = `select * from Fingering where fingerid = ${fingering_id};`;
             var objects = await osql.connect(sql);
             var before_rename = objects[0].movieURL;
             // document.getElementById('movie').innerHTML = before_rename.replace("view", "preview");
             var html = `<div id="movie_${direction}"><div id="movie_rotate_${angle}"><iframe seamless src="${before_rename.replace("view", "preview")}" width="704" height="396"></iframe></div></div>`
             document.getElementById('movie_parent').innerHTML = html;
+        }
+
+        function example(key_number, key_value, finger_value) {
+            console.log(finger_value + "で" + key_value + "が押されました");
+        }
+
+        async function addRecord() {
+            var fingering_id = Number(sessionStorage.getItem('finger_id'));
+            // console.log(fingering_id);
+            var key_list = ["Q", "W", "E", "R", "T", "Y", "U", "I", "O", "P", "BackSpace", "A", "S", "D", "F", "G", "H", "J", "K", "L", ";", "Enter", "Z", "X", "C", "V", "B", "N", "M", ",", ".", "/", "Space"]
+            for (var i = 0; i < key_list.length; i++) {
+                var input_number = document.getElementById(`value${key_list[i]}`).value;
+                var sql = `update Key_Finger set finger = "${input_number}" where id = ${fingering_id} AND text = "${key_list[i]}";`;
+                await osql.connect(sql);
+            }
+        }
+
+        async function resetPressed() {
+            var fingering_id = Number(sessionStorage.getItem('finger_id'));
+            // console.log(fingering_id);
+            var sql = `update Key_Finger set finger = null where id = ${fingering_id};`;
+            await osql.connect(sql);
         }
 
         function rightRotate() {
@@ -99,9 +116,12 @@
 </head>
 
 <body>
-    <h1><span id="name"></span>さんの個人記録</h1>
-    <hr>
-    <span id="result"></span>
+    <h1>運指入力</h1>
+    <div id="result"></div>
+    <br>
+    <div id="finger"></div>
+    <br>
+    <button id="reset" onclick="addRecord()">登録</button>
     <br>
     <div id="movie_parent"></div>
     <br>
@@ -109,6 +129,7 @@
             onclick="rightRotate()">右回転</button></span>
     <hr>
     <a href="student.html">ホームに戻る</a>
+
 </body>
 
 </html>
