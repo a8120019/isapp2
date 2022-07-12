@@ -15,6 +15,7 @@
         $(document).ready(function () {
             showKey();
             showMovie();
+            judge_admin();
         });
 
         async function showKey() {
@@ -117,6 +118,17 @@
             }
             showMovie();
         }
+
+        function judge_admin() {
+            try {
+                var type = sessionStorage.getItem("type");
+                if (type == "admin") {
+                    document.getElementById("Link").innerHTML = "<a href = 'student4admin.html'>" + "ホームに戻る" + "</a>";
+                }
+            } catch {
+
+            }
+        }
     </script>
 
 </head>
@@ -135,7 +147,7 @@
             <img src="Rotate_B.png" height="50" width="50"></image>
         </button>　　　<button onclick="rightRotate()"><img src="Rotate_A.png" height="50" width="50"></button></span>
     <hr>
-    <a href="student.html">ホームに戻る</a>
+    <a id="Link" href="student.html">ホームに戻る</a>
 
 </body>
 
