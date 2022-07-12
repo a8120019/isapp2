@@ -75,7 +75,7 @@
             // console.log(fingering_id);
             var key_list = ["Q", "W", "E", "R", "T", "Y", "U", "I", "O", "P", "BackSpace", "A", "S", "D", "F", "G", "H", "J", "K", "L", ";", "Enter", "Z", "X", "C", "V", "B", "N", "M", ",", ".", "/", "Space"]
             for (var i = 0; i < key_list.length; i++) {
-                var input_number = document.getElementById(`value${key_list[i]}`).value;
+                var input_number = document.getElementById(`value${key_list[i]}`).text;
                 var sql = `update Key_Finger set finger = "${input_number}" where id = ${fingering_id} AND text = "${key_list[i]}";`;
                 await osql.connect(sql);
             }
