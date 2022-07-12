@@ -69,6 +69,7 @@
         }
 
         async function addRecord() {
+            document.getElementById("confirm").innerHTML = "登録中"
             var fingering_id = Number(sessionStorage.getItem('finger_id'));
             // console.log(fingering_id);
             var key_list = ["Q", "W", "E", "R", "T", "Y", "U", "I", "O", "P", "BackSpace", "A", "S", "D", "F", "G", "H", "J", "K", "L", ";", "Enter", "Z", "X", "C", "V", "B", "N", "M", ",", ".", "/", "Space"]
@@ -77,6 +78,11 @@
                 var sql = `update Key_Finger set finger = "${input_number}" where id = ${fingering_id} AND text = "${key_list[i]}";`;
                 await osql.connect(sql);
             }
+
+            document.getElementById("confirm").innerHTML = "complete!!"
+            window.setTimeout(function () {
+                document.getElementById("confirm").innerHTML = ""
+            }, 2000)
         }
 
         async function resetPressed() {
@@ -121,7 +127,7 @@
     <br>
     <div id="finger"></div>
     <br>
-    <button id="reset" onclick="addRecord()">登録</button>
+    <button id="add" onclick="addRecord()">登録</button><span id="confirm"></span>
     <br>
     <div id="movie_parent"></div>
     <br>
