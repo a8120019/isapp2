@@ -68,6 +68,7 @@
         }
 
         async function addButtonPressed() {
+            document.getElementById("confirm").innerHTML = "登録中"
             var movie = document.getElementById('addURL').value;
             var me = await osql.getMe();
             var sql = `insert into Fingering (userid, movieURL, date) values ("${me.id}", "${movie}", now());`;
@@ -85,6 +86,10 @@
             getUserData();
 
             document.getElementById('addURL').value = "";
+            document.getElementById("confirm").innerHTML = "completed!!"
+            window.setTimeout(function () {
+                document.getElementById("confirm").innerHTML = ""
+            }, 2000)
         }
 
         async function resetButtonPressed() {
@@ -107,8 +112,7 @@
     ようこそ、<span id="student_name"></span>さん
     <hr>
     <br>
-    <input id="addURL" type="url" placeholder="動画URLを入力"><button id="add_movie"
-        onclick="addButtonPressed()">動画追加</button>
+    <input id="addURL" type="url" placeholder="動画URLを入力"><button id="add_movie"onclick="addButtonPressed()">動画追加</button> <span id="confirm"></span>
     <!-- <button id="remove_movie" onclick="resetButtonPressed()">リセット</button> -->
     <br><br>
     <span id="student_list"></span>

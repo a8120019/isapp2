@@ -37,6 +37,7 @@
                 html = html + '<td>' + `<a href="personal.html" onclick = "storeRec(${object.fingerid}, '${name}')">` + "記録" + "</a>" + '</td>';
                 html = html + '<td>' + `<button onclick="addRecord('${object.fingerid}')">運指入力</button>` + '</td>';
                 html = html + '<td>' + object.date + '</td>';
+                html = html + '<td>' + `<button onclick="deleteRecord('${object.fingerid}', ${i + 1})">削除</button>` + '</td>';
                 html = html + '</tr>';
             }
             html = html + '</table>';
@@ -54,6 +55,24 @@
             sessionStorage.setItem('type', "admin");
             window.location.href = "key_direct.html";
             // window.location.href = "key_indirect.html";
+        }
+
+        async function deleteRecord(finger_id, record_num) {
+            var ans = window.confirm(record_num + "の記録を削除します 宜しいですか?");
+            if (ans == true) {
+                document.getElementById("confirm").innerHTML = "削除中"
+                var sql = `delete from Fingering where fingerid="${finger_id}";`;
+                await osql.connect(sql);
+                var sql = `delete from Key_Finger where id="${finger_id}";`;
+                await osql.connect(sql);
+                
+
+                getUserData();
+                document.getElementById("confirm").innerHTML = "completed!!"
+                window.setTimeout(function () {
+                    document.getElementById("confirm").innerHTML = ""
+                }, 2000)
+            }
         }
 
         function addNewRecord() {
@@ -82,6 +101,7 @@
     ようこそ、<span id="student_name"></span>さん<span id="back"><a href="admin.html">生徒一覧へ戻る</a></span>
     <hr>
     <br>
+    <span id="confirm"></span>
     <!-- <button id="remove_movie" onclick="resetButtonPressed()">リセット</button> -->
     <br><br>
     <span id="student_list"></span>
