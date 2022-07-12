@@ -27,7 +27,7 @@
             for (var i = 0; i < 3; i++) {
                 html = html + '<tr>';
                 for (var j = 0; j < 11; j++) {
-                    html = html + '<td>' + "<span id=text_center>" + `<span id=char"${11 * i + j}">` + key_list[11 * i + j] + "</span>" + "</span>" + '</td>';
+                    html = html + '<td align ="center">' + `<span id=char"${11 * i + j}" >` + key_list[11 * i + j] + "</span>" + '</td>';
                 }
                 html = html + '</tr>';
 
@@ -49,7 +49,7 @@
                             finger_sum += Number(finger_nums[k]);
                         }
 
-                        html = html + '<td>' + `<span id=value${key_list[11 * i + j]}>` + "　" + finger_sum + "　" + "</span>" + '</td>';  // 足したバージョン
+                        html = html + '<td align ="center">' + `<span id=value${key_list[11 * i + j]}>` + "　" + finger_sum + "　" + "</span>" + '</td>';  // 足したバージョン
                         // html = html + '<td>' + `<span id=value${key_list[11 * i + j]}>` + fingers[0].finger + "</span>" + '</td>';  // 足してないバージョン
                     }
                 }
@@ -105,8 +105,10 @@
     <br>
     <div id="movie_parent"></div>
     <br>
-    <span id="Rotation"><button onclick="leftRotate()">左回転</button>　　　<button
-            onclick="rightRotate()">右回転</button></span>
+    <span id="Rotation"><button onclick="leftRotate()">
+            <img id="Rotate_B" src="Rotate_B.png" height="50" width="50"></image>
+        </button>　　　<button onclick="rightRotate()"><img id="Rotate_A" src="Rotate_A.png" height="50"
+                width="50"></button></span>
     <hr>
     <a href="student.html">ホームに戻る</a>
 </body>
