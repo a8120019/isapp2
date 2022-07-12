@@ -117,6 +117,10 @@
             }
 
             document.getElementById(`value${checkValue}`).innerHTML = finger_sum;
+            document.getElementById("confirm").innerHTML = "completed!!"
+            window.setTimeout(function () {
+                document.getElementById("confirm").innerHTML = ""
+            }, 1000)
         }
 
         async function resetPressed() {
@@ -160,7 +164,7 @@
     <div id="result"></div>
     <br>
     <div id="finger"></div>
-    <button id="check" onclick="buttonPressed()">ボタン</button>
+    <button id="check" onclick="buttonPressed()">登録</button><span id="confirm"></span>
     <br>
     <!-- <button id="reset" onclick="resetPressed()">リセット</button> -->
     <br>
