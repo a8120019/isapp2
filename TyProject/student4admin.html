@@ -34,7 +34,13 @@
                 html = html + '<tr>';
                 var object = fingering[i];
                 html = html + '<td>' + (i + 1) + '</td>';
-                html = html + '<td>' + `<a href="personal.html" onclick = "storeRec(${object.fingerid}, '${name}')">` + "記録" + "</a>" + '</td>';
+                var sql = `select * from Key_Finger where id = "${object.fingerid}";`;
+                var recorded = await osql.connect(sql);
+                if (recorded[0].finger == null) {
+                    html = html + '<td>' + `<button onclick = "storeRec(${object.fingerid}, '${name}')" disabled>` + "記録" + "</button>" + '</td>';
+                } else {
+                    html = html + '<td>' + `<button onclick = "storeRec(${object.fingerid}, '${name}')">` + "記録" + "</button>" + '</td>';
+                }
                 html = html + '<td>' + `<button onclick="addRecord('${object.fingerid}')">運指入力</button>` + '</td>';
                 html = html + '<td>' + object.date + '</td>';
                 html = html + '<td>' + `<button onclick="deleteRecord('${object.fingerid}', ${i + 1})">削除</button>` + '</td>';
@@ -48,6 +54,7 @@
             sessionStorage.setItem('type', "admin");
             sessionStorage.setItem('store_id', finger_id);
             sessionStorage.setItem('fname', fname);
+            window.location.href = "personal.html";
         }
 
         function addRecord(finger_id) {
