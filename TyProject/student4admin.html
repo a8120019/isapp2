@@ -58,14 +58,14 @@
         }
 
         async function deleteRecord(finger_id, record_num) {
-            var ans = window.confirm(record_num + "の記録を削除します 宜しいですか?");
+            var ans = window.confirm(record_num + "の記録を削除します。宜しいですか?");
             if (ans == true) {
                 document.getElementById("confirm").innerHTML = "削除中"
                 var sql = `delete from Fingering where fingerid="${finger_id}";`;
                 await osql.connect(sql);
                 var sql = `delete from Key_Finger where id="${finger_id}";`;
                 await osql.connect(sql);
-                
+
 
                 getUserData();
                 document.getElementById("confirm").innerHTML = "completed!!"
