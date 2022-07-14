@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+
+<html>
+
+<title>
+    記録
+</title>
+
+<head>
+    <link rel="stylesheet" href="index.css">
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+
+    <script type="text/javascript" src="lib/jquery.min.js"></script>
+    <script type="text/javascript" src="lib/osql.js"></script>
+
+    <script>
+        var angle = 0;
+        var direction = "horizon";
+        osql.requireLogin();
+
+        $(document).ready(function () {
+            makeList();
+            // showMovie();
+            judge_admin();
+        });
+
+        async function makeList() {
+            document.getElementById('name').innerHTML = sessionStorage.getItem('fname');
+            var student_id = sessionStorage.getItem('comparation_id');
+            // console.log(student_id);
+            var sql = `select * from Fingering where userid = "${student_id}"`;
+            var records = await osql.connect(sql);
+            // console.log(records.length);
+            var html = "";
+            for (var h = 0;h < records.length;h++) {
+                var record = records[h];
+                // console.log(record);
+                html = html + "<table border='1'>";
+                var key_list = ["Q", "W", "E", "R", "T", "Y", "U", "I", "O", "P", "BackSpace", "A", "S", "D", "F", "G", "H", "J", "K", "L", ";", "Enter", "Z", "X", "C", "V", "B", "N", "M", ",", ".", "/", "Space"]
+                var correct_list = [1, 2, 3, 4, 4, 7, 7, 8, 9, "0", "0", 1, 2, 3, 4, 4, 7, 7, 8, 9, "", "0", 1, "", 3, "", 4, 7, 7, "", "", ""]
+                for (var i = 0; i < 3; i++) {
+                    html = html + '<tr>';
+                    for (var j = 0; j < 11; j++) {
+                        html = html + '<td align ="center">' + `<span id=char"${11 * i + j}" >` + key_list[11 * i + j] + "</span>" + '</td>';
+                    }
+                    html = html + '</tr>';
+
+                    html = html + '<tr>';
+                    for (var j = 0; j < 11; j++) {
+                        var sql = `select * from Key_Finger where id = ${record.fingerid} AND text = "${key_list[11 * i + j]}";`;
+                        var fingers = await osql.connect(sql);
+                        // console.log(fingers);
+                        if (fingers[0].finger == null) {
+                            html = html + '<td>' + `<span id=value${key_list[11 * i + j]}>` + "　" + "</span>" + '</td>';
+                        } else {
+                            var sql = `select * from Key_Finger where id = ${record.fingerid} AND text = "${key_list[11 * i + j]}";`;
+                            var numbers = await osql.connect(sql);
+
+                            // textを配列に戻し、合計を算出
+                            var finger_nums = numbers[0].finger.split(",");  // 配列に戻す
+                            if (finger_nums == "null") {
+                                var finger_sum = "";
+                            } else {
+                                var finger_sum = 0;
+                                for (var k = 0; k < finger_nums.length; k++) {  // 合計算出
+                                    finger_sum += Number(finger_nums[k]);
+                                }
+                            }
+
+                            // console.log(finger_sum + "と" + correct_list[11 * i + j]);
+                            if (finger_sum == correct_list[11 * i + j]) {
+                                html = html + '<td id="correct" align ="center">' + "　" + finger_sum + "　" + '</td>';  // 足したバージョン
+                                // html = html + '<td>' + `<span id=value${key_list[11 * i + j]}>` + fingers[0].finger + "</span>" + '</td>';  // 足してないバージョン
+                            } else if (11 * i + j == 32) {
+                                if (finger_sum == 5 || finger_sum == 6) {
+                                    html = html + '<td id="correct" align ="center">' + "　" + finger_sum + "　" + '</td>';  // 足したバージョン
+                                } else {
+                                    html = html + '<td id="wrong" align ="center">' + "　" + finger_sum + "　" + '</td>';  // 足したバージョン
+                                }
+                            } else {
+                                html = html + '<td id="wrong" align ="center">' + "　" + finger_sum + "　" + '</td>';  // 足したバージョン
+                            }
+                        }
+                    }
+                    html = html + '</tr>';
+                }
+                html = html + '</table>';
+                html = html + "<br>";
+
+            }
+
+            document.getElementById('result').innerHTML = html;
+        }
+
+        async function showMovie() {
+            var fingering_id = Number(sessionStorage.getItem('store_id'));
+            var sql = `select * from Fingering where fingerid = ${fingering_id};`;
+            var objects = await osql.connect(sql);
+            var before_rename = objects[0].movieURL;
+            // document.getElementById('movie').innerHTML = before_rename.replace("view", "preview");
+            var html = `<div id="movie_${direction}"><div id="movie_rotate_${angle}"><iframe seamless src="${before_rename.replace("view", "preview")}" width="704" height="396"></iframe></div></div>`
+            document.getElementById('movie_parent').innerHTML = html;
+        }
+
+        function rightRotate() {
+            angle += 90;
+            if (angle == 360) {
+                angle = 0
+            }
+            if (angle == 90 || angle == 270) {
+                direction = "vertical";
+            } else {
+                direction = "horizon";
+            }
+            showMovie();
+        }
+
+        function leftRotate() {
+            angle -= 90;
+            if (angle == -90) {
+                angle = 270;
+            }
+            if (angle == 90 || angle == 270) {
+                direction = "vertical";
+            } else {
+                direction = "horizon";
+            }
+            showMovie();
+        }
+
+        function judge_admin() {
+            try {
+                var type = sessionStorage.getItem("type");
+                if (type == "admin") {
+                    document.getElementById("Link").innerHTML = "<a href = 'student4admin.html'>" + "ホームに戻る" + "</a>";
+                }
+            } catch {
+
+            }
+        }
+    </script>
+
+</head>
+
+<body>
+    <h1><span id="name"></span>さんの個人記録 比較</h1>
+    <hr>
+    <span id="result">now loading...</span>
+    <!-- <br>
+    <div id="movie_parent"></div> -->
+    <br>
+    <!-- <span id="Rotation"><button onclick="leftRotate()">
+            <img id="Rotate_B" src="Rotate_B.png" height="50" width="50"></image>
+        </button>　　　<button onclick="rightRotate()"><img id="Rotate_A" src="Rotate_A.png" height="50"
+                width="50"></button></span> -->
+    <hr>
+    <a id="Link" href="student.html">ホームに戻る</a>
+</body>
+
+</html>

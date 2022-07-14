@@ -61,16 +61,16 @@
 
                         console.log(finger_sum + "と" + correct_list[11 * i + j]);
                         if (finger_sum == correct_list[11 * i + j]) {
-                            html = html + '<td id="correct" align ="center">' + `<span id="correct">` + "　" + finger_sum + "　" + "</span>" + '</td>';  // 足したバージョン
+                            html = html + '<td id="correct" align ="center">' + "　" + finger_sum + "　" + '</td>';  // 足したバージョン
                             // html = html + '<td>' + `<span id=value${key_list[11 * i + j]}>` + fingers[0].finger + "</span>" + '</td>';  // 足してないバージョン
                         } else if (11 * i + j == 32) {
                             if (finger_sum == 5 || finger_sum == 6){
-                                html = html + '<td id="correct" align ="center">' + `<span id="correct">` + "　" + finger_sum + "　" + "</span>" + '</td>';  // 足したバージョン
+                                html = html + '<td id="correct" align ="center">' + "　" + finger_sum + "　" + '</td>';  // 足したバージョン
                             } else {
-                                html = html + '<td id="wrong" align ="center">' + `<span id="wrong">` + "　" + finger_sum + "　" + "</span>" + '</td>';  // 足したバージョン
+                                html = html + '<td id="wrong" align ="center">' + "　" + finger_sum + "　" + '</td>';  // 足したバージョン
                             }
                         } else {
-                            html = html + '<td id="wrong" align ="center">' + `<span id="wrong">` + "　" + finger_sum + "　" + "</span>" + '</td>';  // 足したバージョン
+                            html = html + '<td id="wrong" align ="center">' + "　" + finger_sum + "　" + '</td>';  // 足したバージョン
                         }
                     }
                 }

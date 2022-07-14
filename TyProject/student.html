@@ -35,7 +35,6 @@
             document.getElementById('student_name').innerHTML = me.fname;
             var sql = `select * from Fingering where userid = "${me.id}";`;
             var fingering = await osql.connect(sql);
-            console.log(fingering);
             var html = "<table border='1'>";
             for (var i = 0; i < fingering.length; i++) {
                 html = html + '<tr>';
@@ -59,6 +58,13 @@
             sessionStorage.setItem('finger_id', finger_id);
             window.location.href = "key_direct.html";
             // window.location.href = "key_indirect.html";
+        }
+
+        async function showComparation() {
+            var me = await osql.getMe();
+            sessionStorage.setItem('comparation_id', me.id);
+            sessionStorage.setItem('fname', me.fname);
+            // window.location.href = "comparation.html";
         }
 
         function addNewRecord() {
@@ -111,6 +117,7 @@
     <h1>学生ページ</h1>
     ようこそ、<span id="student_name"></span>さん
     <hr>
+    <a href="comparation.html" onclick="showComparation()">記録比較</a>
     <br>
     <input id="addURL" type="url" placeholder="動画URLを入力"><button id="add_movie"onclick="addButtonPressed()">動画追加</button> <span id="confirm"></span>
     <!-- <button id="remove_movie" onclick="resetButtonPressed()">リセット</button> -->

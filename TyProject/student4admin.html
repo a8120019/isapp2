@@ -57,6 +57,16 @@
             // window.location.href = "key_indirect.html";
         }
 
+        async function showComparation() {
+            var student_id = sessionStorage.getItem('student_id');
+            console.log(student_id);
+            var sql = `select * from Users where id = "${student_id}";`;
+            var objects = await osql.connect(sql);
+            sessionStorage.setItem('comparation_id', student_id);
+            sessionStorage.setItem('fname', objects[0].fname);
+            window.location.href = "comparation.html";
+        }
+
         async function deleteRecord(finger_id, record_num) {
             var ans = window.confirm(record_num + "の記録を削除します。宜しいですか?");
             if (ans == true) {
@@ -100,6 +110,7 @@
     <h1>学生ページ　-管理者view-</h1>
     ようこそ、<span id="student_name"></span>さん<span id="back"><a href="admin.html">生徒一覧へ戻る</a></span>
     <hr>
+    <button id="comparation" onclick="showComparation()">記録比較</button>
     <br>
     <span id="confirm"></span>
     <!-- <button id="remove_movie" onclick="resetButtonPressed()">リセット</button> -->
