@@ -64,7 +64,7 @@
             var me = await osql.getMe();
             sessionStorage.setItem('comparation_id', me.id);
             sessionStorage.setItem('fname', me.fname);
-            // window.location.href = "comparation.html";
+            window.location.href = "comparation.html";
         }
 
         function addNewRecord() {
@@ -117,7 +117,7 @@
     <h1>学生ページ</h1>
     ようこそ、<span id="student_name"></span>さん
     <hr>
-    <a href="comparation.html" onclick="showComparation()">記録比較</a>
+    <button id="comparation" onclick="showComparation()">記録比較</button>
     <br>
     <input id="addURL" type="url" placeholder="動画URLを入力"><button id="add_movie"onclick="addButtonPressed()">動画追加</button> <span id="confirm"></span>
     <!-- <button id="remove_movie" onclick="resetButtonPressed()">リセット</button> -->
