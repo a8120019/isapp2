@@ -131,7 +131,7 @@
                 ctx.textBaseline = "top";
                 ctx.font = "12pt Arial";
                 ctx.fillStyle = "rgb(0,0,180)";
-                ctx.fillText('グラフタイトル', groundX0 - 10 + 0.5 * groundW, 5);
+                ctx.fillText('正答率グラフ', groundX0 - 10 + 0.5 * groundW, 5);
                 ctx.restore();                    //描画条件を元に戻す
                 ctx.save();                       //現在の描画条件を保管
                 // X軸描画
@@ -145,7 +145,7 @@
                     ctx.lineTo(groundX0 + i * pichX, groundY0 - 5);
                     ctx.fillText(i + 1, groundX0 + i * pichX, groundY0 + 2);
                 }
-                ctx.fillText('X軸', 0.5 * groundW + groundX0, groundY0 + 15);
+                ctx.fillText('回', 0.5 * groundW + groundX0, groundY0 + 15);
                 // Y軸描画
                 ctx.moveTo(groundX0, groundY0);
                 ctx.lineTo(groundX0, 25);
@@ -157,7 +157,7 @@
                     ctx.fillText(i * pichH, groundX0 - 3, groundY0 - i * pichH * cnstH);
                 }
                 ctx.rotate(-0.5 * Math.PI);
-                ctx.fillText('Y軸', -0.45 * groundY0, groundX0 - 30);
+                ctx.fillText('正答率(%)', -0.45 * groundY0, groundX0 - 30);
                 ctx.stroke();                     //サブパスを描画
                 ctx.restore();                    //描画条件を元に戻す
                 ctx.save();                       //現在の描画条件を保管
