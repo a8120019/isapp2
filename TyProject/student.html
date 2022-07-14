@@ -107,7 +107,7 @@
                     document.getElementById("confirm").innerHTML = ""
                 }, 2000)
             } else {
-                window.alert("URLが適切ではありません");
+                window.alert("URLが適切ではありません\nドライブ上で動画を開き、「新しいウィンドウで開く」を押した後にURLをコピーしてください");
             }
         }
 
@@ -128,7 +128,8 @@
 
 <body>
     <img src="logo.png">
-    <h1><span id="student_name"></span>さんの記録一覧</h1>
+    <h1>トップページ for Students</h1>
+    <span id="student_name"></span>さんの記録一覧
     <hr>
     <button id="comparation" onclick="showComparation()">過去の記録を比較</button>
     <br>
