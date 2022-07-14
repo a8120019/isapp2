@@ -37,9 +37,9 @@
                 var sql = `select * from Key_Finger where id = "${object.fingerid}";`;
                 var recorded = await osql.connect(sql);
                 if (recorded[0].finger == null) {
-                    html = html + '<td>' + `<button onclick = "storeRec(${object.fingerid}, '${name}')" disabled>` + "記録" + "</button>" + '</td>';
+                    html = html + '<td>' + `<button disabled>` + "記録" + "</button>" + '</td>';
                 } else {
-                    html = html + '<td>' + `<button onclick = "storeRec(${object.fingerid}, '${name}')">` + "記録" + "</button>" + '</td>';
+                    html = html + '<td>' + `<button onclick = "storeRec(${object.fingerid}, '${name}', '${object.date}', '${i + 1}')">` + "記録" + "</button>" + '</td>';
                 }
                 html = html + '<td>' + `<button onclick="addRecord('${object.fingerid}')">運指入力</button>` + '</td>';
                 html = html + '<td>' + object.date + '</td>';
@@ -50,10 +50,12 @@
             document.getElementById('student_list').innerHTML = html;
         }
 
-        function storeRec(finger_id, fname) {
+        function storeRec(finger_id, fname, date, number) {
             sessionStorage.setItem('type', "admin");
             sessionStorage.setItem('store_id', finger_id);
             sessionStorage.setItem('fname', fname);
+            sessionStorage.setItem('record_date', date);
+            sessionStorage.setItem('record_number', number);
             window.location.href = "personal.html";
         }
 
