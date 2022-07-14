@@ -83,28 +83,32 @@
         }
 
         async function addButtonPressed() {
-            document.getElementById("confirm").innerHTML = "登録中"
             var movie = document.getElementById('addURL').value;
-            var me = await osql.getMe();
-            var sql = `insert into Fingering (userid, movieURL, date) values ("${me.id}", "${movie}", now());`;
-            await osql.connect(sql);
-
-            var sql = `select * from Fingering where userid = "${me.id}" order by fingerid desc;`;
-            var yubi = await osql.connect(sql);
-            var catch_fingerid = yubi[0].fingerid;
-
-            var key_list = ["Q", "W", "E", "R", "T", "Y", "U", "I", "O", "P", "BackSpace", "A", "S", "D", "F", "G", "H", "J", "K", "L", ";", "Enter", "Z", "X", "C", "V", "B", "N", "M", ",", ".", "/", "Space"];
-            for (var i = 0; i < key_list.length; i++) {
-                var sql = `insert into Key_Finger (id, text) values (${catch_fingerid}, "${key_list[i]}");`;
+            if (movie.slice(-5) == "/view") {
+                document.getElementById("confirm").innerHTML = "登録中"
+                var me = await osql.getMe();
+                var sql = `insert into Fingering (userid, movieURL, date) values ("${me.id}", "${movie}", now());`;
                 await osql.connect(sql);
-            }
-            getUserData();
 
-            document.getElementById('addURL').value = "";
-            document.getElementById("confirm").innerHTML = "completed!!"
-            window.setTimeout(function () {
-                document.getElementById("confirm").innerHTML = ""
-            }, 2000)
+                var sql = `select * from Fingering where userid = "${me.id}" order by fingerid desc;`;
+                var yubi = await osql.connect(sql);
+                var catch_fingerid = yubi[0].fingerid;
+
+                var key_list = ["Q", "W", "E", "R", "T", "Y", "U", "I", "O", "P", "BackSpace", "A", "S", "D", "F", "G", "H", "J", "K", "L", ";", "Enter", "Z", "X", "C", "V", "B", "N", "M", ",", ".", "/", "Space"];
+                for (var i = 0; i < key_list.length; i++) {
+                    var sql = `insert into Key_Finger (id, text) values (${catch_fingerid}, "${key_list[i]}");`;
+                    await osql.connect(sql);
+                }
+                getUserData();
+
+                document.getElementById('addURL').value = "";
+                document.getElementById("confirm").innerHTML = "completed!!"
+                window.setTimeout(function () {
+                    document.getElementById("confirm").innerHTML = ""
+                }, 2000)
+            } else {
+                window.alert("URLが適切ではありません");
+            }
         }
 
         async function resetButtonPressed() {
