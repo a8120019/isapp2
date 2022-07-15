@@ -46,7 +46,7 @@
                     var fingers = await osql.connect(sql);
                     // console.log(fingers);
                     if (fingers[0].finger == null) {
-                        html = html + '<td id="wrong" align ="center">' + "　" +  "　" + "　" + '</td>';  // 足したバージョン
+                        html = html + '<td id="wrong" align ="center">' + "　" + "　" + "　" + '</td>';  // 足したバージョン
                     } else {
                         var sql = `select * from Key_Finger where id = ${fingering_id} AND text = "${key_list[11 * i + j]}";`;
                         var numbers = await osql.connect(sql);
@@ -68,7 +68,7 @@
                             // html = html + '<td>' + `<span id=value${key_list[11 * i + j]}>` + fingers[0].finger + "</span>" + '</td>';  // 足してないバージョン
                             correct_counter++
                         } else if (11 * i + j == 32) {
-                            if (finger_sum == 5 || finger_sum == 6){
+                            if (finger_sum == 5 || finger_sum == 6) {
                                 html = html + '<td id="correct" align ="center">' + "　" + finger_sum + "　" + '</td>';  // 足したバージョン
                                 correct_counter++
                             } else {
@@ -150,7 +150,7 @@
         </button>　　　<button onclick="rightRotate()"><img id="Rotate_A" src="Rotate_A.png" height="50"
                 width="50"></button></span>
     <hr>
-    <a id="Link" href="student.html">ホームに戻る</a>
+    <a id="Link" href="student.html">トップページに戻る</a>
 </body>
 
 </html>
